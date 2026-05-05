@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ພໍ່ຄ້າໜ້າຫວານ · Game ID Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;500;600;700;900&family=Noto+Serif+Lao:wght@700;900&family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --or:#FF6B1A; --ord:#E84F00; --orl:#FF9148;
+      --bg:#0D1B35; --bg2:#122040; --card:#162444;
+      --white:#fff; --muted:rgba(255,255,255,0.5);
+      --avail:#16A34A; --sold:#C0392B;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    /* Hide scrollbars everywhere */
+    *{scrollbar-width:none;-ms-overflow-style:none}
+    *::-webkit-scrollbar{display:none}
+    html{scroll-behavior:smooth}
+    body{font-family:'Noto Sans Lao',sans-serif;background:var(--bg);color:var(--white);min-height:100vh;overflow-x:hidden}
+
+    header{
+      background:linear-gradient(135deg,var(--ord),var(--or) 60%,var(--orl));
+      padding:0 18px;position:sticky;top:0;z-index:90;
+      box-shadow:0 2px 20px rgba(232,79,0,0.35);
+    }
+    .nav{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:58px;gap:10px}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+    .logo-icon{width:36px;height:36px;background:rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;border:1.5px solid rgba(255,255,255,0.3)}
+    .logo-wrap{display:flex;flex-direction:column;line-height:1.2}
+    .logo-main{font-family:'Noto Serif Lao',serif;font-weight:900;font-size:.95rem;color:#fff}
+    .logo-sub{font-size:.62rem;color:rgba(255,255,255,0.8);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+    .wa-btn{
+      display:flex;align-items:center;gap:7px;
+      background:#fff;color:var(--ord);
+      border:none;border-radius:30px;padding:8px 18px;
+      font-family:'Noto Sans Lao',sans-serif;font-size:.82rem;font-weight:700;
+      cursor:pointer;text-decoration:none;flex-shrink:0;
+      box-shadow:0 2px 10px rgba(0,0,0,0.15);transition:transform .18s;
+    }
+    .wa-btn:hover{transform:translateY(-2px)}
+
+    .hero{
+      background:linear-gradient(160deg,var(--ord),var(--or) 50%,var(--orl));
+      padding:48px 18px 68px;text-align:center;position:relative;overflow:hidden;
+    }
+    .hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:50px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-r{position:absolute;border-radius:50%;background:rgba(255,255,255,0.06);pointer-events:none}
+    .hero-r1{width:200px;height:200px;top:-60px;right:-40px}
+    .hero-r2{width:100px;height:100px;bottom:40px;left:10px}
+    .hero h1{font-family:'Noto Serif Lao',serif;font-weight:900;font-size:clamp(1.7rem,6vw,2.8rem);color:#fff;line-height:1.2;text-shadow:0 2px 16px rgba(0,0,0,0.2);margin-bottom:8px}
+    .hero p{color:rgba(255,255,255,0.9);font-size:.9rem;max-width:380px;margin:0 auto 24px;line-height:1.65}
+    .hero-stats{display:flex;justify-content:center;gap:32px;margin-bottom:28px}
+    .hs{display:flex;flex-direction:column;align-items:center}
+    .hs-num{font-family:'Oswald',sans-serif;font-weight:700;font-size:2rem;color:#fff;line-height:1}
+    .hs-div{width:1px;height:40px;background:rgba(255,255,255,0.25);align-self:center}
+    .hs-lbl{font-size:.7rem;color:rgba(255,255,255,0.8);margin-top:4px;font-weight:500}
+    .hero-cta{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#fff;color:var(--ord);
+      font-family:'Noto Sans Lao',sans-serif;font-weight:700;font-size:.92rem;
+      padding:12px 28px;border-radius:50px;border:none;cursor:pointer;
+      box-shadow:0 4px 20px rgba(0,0,0,0.2);transition:transform .2s;text-decoration:none;
+    }
+    .hero-cta:hover{transform:translateY(-3px)}
+
+    .wrap{max-width:960px;margin:0 auto;padding:0 16px}
+
+    .sort-section{margin:22px 0 18px}
+    .sort-card{background:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 2px 12px rgba(0,0,0,0.08);border:1px solid rgba(0,0,0,0.06)}
+    .sort-label{display:flex;align-items:center;gap:6px;font-size:.8rem;font-weight:700;color:#888;margin-bottom:12px}
+    .sort-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .sc{
+      display:flex;align-items:center;justify-content:center;gap:5px;
+      padding:9px 12px;border-radius:50px;
+      background:rgba(255,107,26,0.07);
+      border:1.5px solid rgba(255,107,26,0.18);
+      color:var(--or);font-family:'Noto Sans Lao',sans-serif;
+      font-size:.78rem;font-weight:700;cursor:pointer;
+      white-space:nowrap;transition:all .18s;
+    }
+    .sc.active,.sc:hover{background:var(--or);border-color:var(--or);color:#fff;box-shadow:0 3px 12px rgba(255,107,26,0.3)}
+    .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+    .sec-title{font-family:'Noto Serif Lao',serif;font-size:1rem;font-weight:900;color:var(--orl);display:flex;align-items:center;gap:8px}
+    .cnt{background:rgba(255,107,26,0.15);color:var(--or);font-size:.72rem;font-weight:700;padding:2px 10px;border-radius:20px;font-family:'Noto Sans Lao',sans-serif}
+
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding-bottom:60px}
+
+    /* Loading */
+    .loading-wrap{grid-column:1/-1;text-align:center;padding:60px 20px}
+    .spinner{width:36px;height:36px;border:3px solid rgba(255,107,26,0.2);border-top-color:var(--or);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .card{
+      background:#fff;border-radius:18px;overflow:hidden;
+      cursor:pointer;
+      border:1.5px solid rgba(0,0,0,0.07);
+      box-shadow:0 2px 12px rgba(0,0,0,0.10);
+      transition:transform .22s,box-shadow .22s,border-color .22s;
+      text-decoration:none;color:inherit;display:block;
+    }
+    .card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,0.18);border-color:rgba(255,107,26,0.3)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+    .card-img-wrap{padding:10px 10px 0;position:relative;}
+    .card-img{
+      width:100%;aspect-ratio:16/10;
+      background:linear-gradient(135deg,#e8edf5,#f0f4fb);
+      border-radius:12px;overflow:hidden;position:relative;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+    .card:hover .card-img img{transform:scale(1.04)}
+    .card-img svg{width:44px;height:44px;opacity:.25}
+
+    .stag{
+      position:absolute;top:5px;right:5px;
+      display:inline-flex;align-items:center;gap:2px;
+      padding:1px 6px;border-radius:50px;
+      font-size:.5rem;font-weight:700;
+      line-height:1.6;
+      backdrop-filter:blur(6px);
+    }
+    .stag svg{display:block;flex-shrink:0;width:6px;height:6px}
+    .stag.avail{background:rgba(22,163,74,0.85);color:#fff}
+    .stag.sold{background:rgba(192,57,43,0.85);color:#fff}
+    .badge-new{
+      position:absolute;top:8px;left:8px;
+      background:var(--or);color:#fff;
+      font-size:.6rem;font-weight:800;padding:3px 8px;border-radius:6px;
+      letter-spacing:.04em;
+    }
+    .card-stats{
+      position:absolute;bottom:0;left:0;right:0;
+      padding:18px 8px 6px;
+      background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);
+      display:flex;gap:5px;border-radius:0 0 12px 12px;
+    }
+    .cs{
+      display:flex;align-items:center;gap:3px;
+      font-size:.62rem;font-weight:700;color:rgba(255,255,255,0.9);
+      background:rgba(0,0,0,0.3);border-radius:4px;padding:2px 6px;
+      backdrop-filter:blur(4px);
+    }
+
+    .card-body{padding:10px 12px 12px}
+    .card-id{font-family:'Oswald',sans-serif;font-weight:700;font-size:.98rem;color:#1a1a1a;margin-bottom:2px}
+    .card-game{font-size:.68rem;color:#888;margin-bottom:8px;display:flex;align-items:center;gap:4px}
+    .card-price{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.05rem;color:var(--or)}
+    .card-price-old{font-size:.68rem;color:#bbb;text-decoration:line-through;margin-left:5px}
+    .card-date{font-size:.65rem;color:#999;margin-top:4px;display:flex;align-items:center;gap:3px}
+    .card-btn{
+      display:flex;align-items:center;justify-content:center;gap:5px;
+      margin-top:10px;padding:8px;border-radius:10px;
+      background:rgba(255,107,26,0.08);border:1px solid rgba(255,107,26,0.2);
+      color:var(--or);font-size:.75rem;font-weight:700;
+      transition:all .18s;
+    }
+    .card:hover .card-btn{background:var(--or);color:#fff;border-color:var(--or)}
+    .card-btn.sold-btn{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.08);color:#aaa}
+
+    /* DETAIL PAGE */
+    #detailPage{
+      position:fixed;inset:0;z-index:200;
+      background:#fff;overflow-y:auto;
+      visibility:hidden;pointer-events:none;
+      opacity:0;transform:translateX(30px);
+      transition:opacity .25s ease, transform .25s ease, visibility 0s linear .25s;
+    }
+    #detailPage.show{
+      visibility:visible;pointer-events:auto;
+      opacity:1;transform:translateX(0);
+      transition:opacity .25s ease, transform .25s ease, visibility 0s linear 0s;
+    }
+    #homePage{transition:opacity .2s ease}
+
+    /* Image fade */
+    #dMainImg img{transition:opacity .22s ease}
+    #dMainImg img.fading{opacity:0}
+
+    .detail-back{
+      display:flex;align-items:center;gap:8px;
+      padding:14px 18px;
+      background:#fff;border-bottom:1px solid rgba(0,0,0,0.07);
+      cursor:pointer;font-size:.85rem;font-weight:700;color:var(--or);
+      position:sticky;top:0;z-index:50;
+    }
+    .detail-back:hover{color:var(--ord)}
+
+    .detail-img-wrap{padding:16px 16px 0;background:#fff;}
+    .detail-main-img{
+      width:100%;max-height:320px;
+      background:linear-gradient(135deg,#f0f2f5,#e8edf5);
+      border-radius:16px;overflow:hidden;position:relative;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .detail-main-img img{width:100%;height:auto;max-height:320px;object-fit:contain;display:block}
+    .detail-main-img svg{width:72px;height:72px;opacity:.2}
+    .detail-status-tag{
+      position:absolute;top:10px;right:10px;
+      display:flex;align-items:center;gap:4px;
+      padding:5px 12px;border-radius:50px;
+      font-size:.72rem;font-weight:700;
+      backdrop-filter:blur(8px);
+    }
+    .detail-status-tag.avail{background:rgba(22,163,74,0.92);color:#fff}
+    .detail-status-tag.sold{background:rgba(192,57,43,0.92);color:#fff}
+
+    .thumb-strip{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;scrollbar-width:none;background:#fff;}
+    .thumb-strip::-webkit-scrollbar{display:none}
+    .thumb{width:62px;height:46px;border-radius:9px;overflow:hidden;border:2px solid transparent;flex-shrink:0;cursor:pointer;background:#f0f2f5;transition:border-color .18s;display:flex;align-items:center;justify-content:center;}
+    .thumb.active{border-color:var(--or)}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+
+    .detail-body{padding:18px 18px 100px;max-width:600px;margin:0 auto}
+    .detail-crumb{font-size:.72rem;color:#aaa;display:flex;align-items:center;gap:5px;margin-bottom:10px}
+    .detail-id-badge{display:none;}
+    .detail-title{font-family:'Noto Serif Lao',serif;font-weight:900;font-size:1.3rem;color:#1a1a1a;margin-bottom:6px;line-height:1.3}
+    .detail-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+    .dmeta{display:flex;align-items:center;gap:5px;background:rgba(255,107,26,0.08);border-radius:20px;padding:5px 12px;font-size:.76rem;color:var(--or);font-weight:600}
+
+    /* Status pill — small round minimal */
+    .detail-status-pill{
+      display:inline-flex;align-items:center;gap:5px;
+      padding:5px 14px;border-radius:50px;
+      font-size:.76rem;font-weight:700;
+      margin-bottom:14px;
+    }
+    .detail-status-pill.avail{background:rgba(22,163,74,0.12);color:#16A34A;border:1.5px solid rgba(22,163,74,0.3)}
+    .detail-status-pill.sold{background:rgba(192,57,43,0.10);color:#C0392B;border:1.5px solid rgba(192,57,43,0.25)}
+
+    .detail-price-box{background:rgba(255,107,26,0.06);border:1.5px solid rgba(255,107,26,0.18);border-radius:14px;padding:14px 16px;margin-bottom:14px;}
+    .dp-lbl{font-size:.72rem;color:#aaa;margin-bottom:4px}
+    .dp-val{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.9rem;color:var(--or);line-height:1}
+    .dp-unit{font-size:.82rem;color:var(--orl);margin-left:4px;font-weight:600}
+    .dp-old{font-size:.76rem;color:#bbb;text-decoration:line-through;margin-top:3px}
+
+    .detail-section-title{font-size:.74rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+    .detail-table{background:#f8f9fb;border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,0.07);margin-bottom:14px}
+    .drow{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;font-size:.82rem;border-bottom:1px solid rgba(0,0,0,0.05)}
+    .drow:last-child{border-bottom:none}
+    .drow .dk{color:#888}
+    .drow .dv{font-weight:700;color:#1a1a1a}
+
+    .detail-note{background:rgba(255,107,26,0.05);border:1px solid rgba(255,107,26,0.15);border-radius:12px;padding:12px 14px;margin-bottom:18px;font-size:.8rem;color:#888;line-height:1.65}
+    .detail-note strong{color:var(--or)}
+
+    .detail-footer{position:sticky;bottom:0;left:0;right:0;padding:12px 18px 20px;background:linear-gradient(to top,#fff 80%,rgba(255,255,255,0));z-index:10;}
+    .buy-btn{
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      width:100%;max-width:540px;margin:0 auto;
+      background:linear-gradient(135deg,#25D366,#1EAD52);
+      color:#fff;border:none;border-radius:50px;padding:15px 24px;
+      font-family:'Noto Serif Lao',serif;font-size:1rem;font-weight:900;
+      cursor:pointer;box-shadow:0 5px 20px rgba(37,211,102,0.3);
+      transition:transform .18s,box-shadow .18s;text-decoration:none;
+    }
+    .buy-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,0.4)}
+    .buy-btn.disabled{background:rgba(0,0,0,0.08);color:rgba(0,0,0,0.3);box-shadow:none;cursor:not-allowed}
+    .buy-btn.disabled:hover{transform:none}
+
+    /* BANNER */
+    .banner-wrap{width:100%;padding:14px 16px 0;position:relative;background:transparent}
+    .banner-inner{border-radius:16px;overflow:hidden;position:relative;box-shadow:0 4px 20px rgba(0,0,0,0.18)}
+    .banner-track{display:flex;transition:transform .5s cubic-bezier(.25,.46,.45,.94);will-change:transform}
+    .banner-slide{min-width:100%;position:relative;aspect-ratio:3/2;overflow:hidden}
+    .banner-slide img{width:100%;height:100%;display:block;object-fit:cover;position:absolute;inset:0}
+    .banner-dots{display:flex;justify-content:center;gap:5px;position:absolute;bottom:8px;left:0;right:0;z-index:4}
+    .bdot{width:18px;height:4px;border-radius:2px;background:rgba(255,255,255,0.4);cursor:pointer;transition:all .2s}
+    .bdot.active{background:#FF6B1A;width:28px}
+    .banner-arr{position:absolute;top:50%;transform:translateY(-60%);background:rgba(0,0,0,0.3);border:none;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;font-size:.95rem;backdrop-filter:blur(4px)}
+    .banner-arr.prev{left:22px}
+    .banner-arr.next{right:22px}
+
+    /* ANNOUNCEMENT */
+    .announce-bar{margin:10px 16px 0;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:50px;padding:7px 14px;display:flex;align-items:center;gap:8px;overflow:hidden}
+    .ann-tag{display:flex;align-items:center;gap:5px;background:var(--or);color:#fff;border-radius:50px;padding:3px 10px;font-size:.65rem;font-weight:700;white-space:nowrap;flex-shrink:0}
+    .ann-scroll{overflow:hidden;flex:1}
+    .ann-text{white-space:nowrap;font-size:.82rem;font-weight:700;color:#fff;animation:marquee 18s linear infinite}
+    @keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+
+    footer{background:var(--bg2);border-top:1px solid rgba(255,255,255,0.06);padding:36px 18px 28px;text-align:center;font-size:.82rem;color:var(--muted)}
+    .foot-brand{font-family:'Noto Serif Lao',serif;font-size:1.1rem;font-weight:900;color:var(--orl);margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:8px}
+    .foot-desc{line-height:1.8;margin-bottom:18px}
+    .foot-wa{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#25D366,#1EAD52);color:#fff;padding:11px 24px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.85rem;box-shadow:0 4px 16px rgba(37,211,102,0.25);transition:transform .18s}
+    .foot-wa:hover{transform:translateY(-2px)}
+    .foot-copy{margin-top:18px;font-size:.68rem;opacity:.3}
+
+    /* CATEGORY */
+    .cat-section{padding:16px 16px 0}
+    .cat-title{font-family:'Noto Serif Lao',serif;font-size:.95rem;font-weight:900;color:var(--orl);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+    .cat-row{display:flex;flex-direction:column;gap:10px}
+    .cat-item{cursor:pointer;border-radius:14px;overflow:hidden;border:2px solid rgba(255,107,26,0.18);background:#162444;transition:border-color .2s,transform .18s}
+    .cat-item:hover{border-color:var(--or);transform:scale(1.02)}
+    .cat-img{width:100%;display:block}
+    .cat-img img{width:100%;height:auto;display:block;object-fit:cover}
+
+    /* CATEGORY PAGE */
+    #catPage{
+      position:fixed;inset:0;z-index:150;
+      background:var(--bg);overflow-y:auto;
+      visibility:hidden;pointer-events:none;
+      opacity:0;transform:translateX(40px);
+      transition:opacity .28s ease, transform .28s ease, visibility 0s linear .28s;
+    }
+    #catPage.show{
+      visibility:visible;pointer-events:auto;
+      opacity:1;transform:translateX(0);
+      transition:opacity .28s ease, transform .28s ease, visibility 0s linear 0s;
+    }
+    .cat-page-back{display:flex;align-items:center;gap:8px;padding:14px 18px;background:linear-gradient(135deg,var(--ord),var(--or) 60%,var(--orl));cursor:pointer;font-size:.9rem;font-weight:700;color:#fff;position:sticky;top:0;z-index:50;transition:opacity .15s}
+    .cat-page-back:active{opacity:.75}
+
+    /* Cat page sort */
+    .cat-sort-section{margin:16px 0 12px}
+    .cat-sort-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+    /* SECTION HEADING */
+    .all-ids-title{font-family:'Noto Serif Lao',serif;font-size:.95rem;font-weight:900;color:var(--orl);margin:18px 0 0;display:flex;align-items:center;gap:6px}
+
+    @media(max-width:500px){
+      .grid{grid-template-columns:repeat(2,1fr);gap:10px}
+      .hero-stats{gap:20px}
+    }
+    @media(min-width:768px){
+      .detail-img-wrap{padding:24px 24px 0}
+      .detail-body{padding:22px 24px 100px}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="#" class="logo" onclick="showHome();return false">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M6 12h4M8 10v4"/><circle cx="15.5" cy="11" r="1.2" fill="white" stroke="none"/><circle cx="17.5" cy="13" r="1.2" fill="white" stroke="none"/></svg>
+      </div>
+      <div class="logo-wrap">
+        <span class="logo-main">ພໍ່ຄ້າໜ້າຫວານ</span>
+        <span class="logo-sub">Game ID Shop</span>
+      </div>
+    </a>
+    <a href="https://wa.me/02096034114" target="_blank" class="wa-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="#16A34A"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.954 9.954 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.946 7.946 0 01-4.031-1.094l-.29-.172-2.952.775.787-2.873-.189-.295A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+      ຕິດຕໍ່
+    </a>
+  </div>
+</header>
+
+<!-- HOME PAGE -->
+<div id="homePage">
+
+  <!-- BANNER SLIDER -->
+  <div class="banner-wrap" id="bannerWrap">
+    <div class="banner-inner">
+      <div class="banner-track" id="bannerTrack"></div>
+      <button class="banner-arr prev" onclick="goBanner(bannerIdx-1)">‹</button>
+      <button class="banner-arr next" onclick="goBanner(bannerIdx+1)">›</button>
+    </div>
+  </div>
+
+  <!-- ANNOUNCE -->
+  <div class="announce-bar" id="announceBar" style="display:none">
+    <div class="ann-tag">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z"/></svg>
+      ປະກາດ
+    </div>
+    <div class="ann-scroll"><div class="ann-text" id="annText"></div></div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="cat-section">
+    <div class="cat-title">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--orl)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      ໝວດໝູ່
+    </div>
+    <div class="cat-row" id="catRow">
+      <div class="cat-item" onclick="openCatPage('Mobile Legends')">
+        <div class="cat-img">
+          <img src="https://img1.pic.in.th/images/7923.jpg" alt="Mobile Legends" loading="lazy" onerror="this.style.display='none'"/>
+        </div>
+      </div>
+      <div class="cat-item" onclick="openCatPage('Free Fire')">
+        <div class="cat-img">
+          <img src="https://img1.pic.in.th/images/7925.png" alt="Free Fire" loading="lazy" onerror="this.style.display='none'"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" id="listing">
+    <div class="all-ids-title">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--orl)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M6 12h4M8 10v4"/><circle cx="16" cy="11" r="1.2" fill="var(--orl)" stroke="none"/><circle cx="18" cy="13" r="1.2" fill="var(--orl)" stroke="none"/></svg>
+      ໄອດີເກມທັງໝົດ
+    </div>
+    <div class="sort-section">
+      <div class="sort-card">
+      <div class="sort-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        ຈັດຮຽງ:
+      </div>
+      <div class="sort-chips">
+        <div class="sc active" onclick="sortBy(this,'newest')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          ໄອດີລ່າສຸດ
+        </div>
+        <div class="sc" onclick="sortBy(this,'oldest')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 8 14"/></svg>
+          ໄອດີເກົ່າສຸດ
+        </div>
+        <div class="sc" onclick="sortBy(this,'price_asc')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+          ໄອດີທຳມະດາ
+        </div>
+        <div class="sc" onclick="sortBy(this,'price_desc')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          ໄອດີລະດັບທ໊ອບ
+        </div>
+      </div>
+      </div>
+    </div>
+
+
+
+    <div class="grid" id="grid">
+      <div class="loading-wrap">
+        <div class="spinner"></div>
+        <div style="color:rgba(255,255,255,0.3);font-size:.8rem">ກຳລັງໂຫລດ...</div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+  <footer>
+    <div class="foot-brand">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--orl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M6 12h4M8 10v4"/><circle cx="16" cy="11" r="1.2" fill="var(--orl)" stroke="none"/><circle cx="18" cy="13" r="1.2" fill="var(--orl)" stroke="none"/></svg>
+      ພໍ່ຄ້າໜ້າຫວານ
+    </div>
+    <a href="https://wa.me/02096034114" target="_blank" class="foot-wa">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.954 9.954 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.946 7.946 0 01-4.031-1.094l-.29-.172-2.952.775.787-2.873-.189-.295A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+      WhatsApp: 02096034114
+    </a>
+    <p class="foot-copy">© 2025 ພໍ່ຄ້າໜ້າຫວານ · Game ID Shop</p>
+  </footer>
+</div>
+
+<!-- DETAIL PAGE -->
+<div id="detailPage">
+  <div class="detail-back" onclick="showHome()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    ກັບໜ້າຫຼັກ
+  </div>
+  <div class="detail-img-wrap">
+    <div class="detail-main-img" id="dMainImg">
+      <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M6 12h4M8 10v4"/><circle cx="16" cy="11" r="1.5" fill="rgba(255,255,255,0.2)" stroke="none"/><circle cx="18" cy="13" r="1.5" fill="rgba(255,255,255,0.2)" stroke="none"/></svg>
+    </div>
+  </div>
+  <div class="thumb-strip" id="dThumbStrip"></div>
+  <div class="detail-body">
+    <div class="detail-crumb" id="dCrumb"></div>
+    <div class="detail-id-badge" id="dIdBadge"></div>
+    <div class="detail-title" id="dTitle"></div>
+    <div class="detail-meta" id="dMeta"></div>
+    <div id="dStatusRow"></div>
+    <div class="detail-price-box" id="dPriceBox"></div>
+    <div id="dNote" style="margin-bottom:18px;font-size:.85rem;color:#666;line-height:1.7"></div>
+  </div>
+  <div class="detail-footer">
+    <div id="dBuyBtn"></div>
+  </div>
+</div>
+
+<!-- CATEGORY PAGE -->
+<div id="catPage">
+  <div class="cat-page-back" onclick="closeCatPage()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    <span id="catPageTitle">ໝວດໝູ່</span>
+  </div>
+  <div class="wrap" style="padding-top:16px;padding-bottom:60px">
+    <div class="cat-sort-section">
+      <div class="sort-card">
+        <div class="sort-label">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          ຈັດຮຽງ:
+        </div>
+        <div class="sort-chips cat-sort-chips">
+          <div class="sc cat-sc active" onclick="catSortBy(this,'newest')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            ໄອດີລ່າສຸດ
+          </div>
+          <div class="sc cat-sc" onclick="catSortBy(this,'oldest')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 8 14"/></svg>
+            ໄອດີເກົ່າສຸດ
+          </div>
+          <div class="sc cat-sc" onclick="catSortBy(this,'price_asc')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+            ໄອດີທຳມະດາ
+          </div>
+          <div class="sc cat-sc" onclick="catSortBy(this,'price_desc')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            ໄອດີລະດັບທ໊ອບ
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid" id="catGrid">
+      <div class="loading-wrap">
+        <div class="spinner"></div>
+        <div style="color:rgba(255,255,255,0.3);font-size:.8rem">ກຳລັງໂຫລດ...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ SUPABASE CONFIG ══
+const SB_URL  = 'https://wsklbzywuzvsdhmmvhiy.supabase.co';
+const SB_KEY  = 'sb_publishable_YpJBgsuYZoKgEIsz3lJp_w_1PpK7nrz';
+
+const WA = '02096034114';
+const RANK_ICON = {'Mythic Glory':'👑','Mythic':'🔮','Legend':'⚡','Epic':'💜','Heroic':'🔥','King':'👑'};
+
+let products = [];
+let displayList = [];
+
+// ══ SUPABASE FETCH ══
+async function sbFetch(path, opts={}){
+  const res = await fetch(SB_URL + path, {
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type': 'application/json',
+      ...opts.headers
+    },
+    ...opts
+  });
+  if(!res.ok){
+    const err = await res.text();
+    throw new Error(err);
+  }
+  return res.json();
+}
+
+async function loadProducts(){
+  try {
+    const data = await sbFetch('/rest/v1/products?select=*&order=created_at.desc');
+    return data.map(row => ({
+      id:         row.id,
+      title:      row.title,
+      game:       row.game,
+      price:      row.price,
+      oldPrice:   row.old_price,
+      status:     row.status,
+      date:       row.date,
+      isNew:      row.is_new,
+      imgs:       row.imgs || [],
+      desc:       row.description || '',
+      extras:     Array.isArray(row.extras) ? row.extras : [],
+      created_at: row.created_at || ''
+    }));
+  } catch(e){
+    console.error('Load error:', e);
+    return [];
+  }
+}
+
+// ══ BANNER ══
+let bannerIdx = 0, bannerTimer;
+async function loadBanners(){
+  try{
+    const data = await sbFetch('/rest/v1/banners?select=*&order=sort_order.asc');
+    const imgs = data.map(r=>r.img_url).filter(Boolean);
+    if(!imgs.length) imgs.push('https://img1.pic.in.th/images/7953.jpg');
+    renderBanner(imgs);
+  }catch(e){
+    renderBanner(['https://img1.pic.in.th/images/7953.jpg']);
+  }
+}
+function renderBanner(imgs){
+  const track = document.getElementById('bannerTrack');
+  if(!track) return;
+  track.innerHTML = imgs.map(u=>`
+    <div class="banner-slide"><img src="${u}" alt="banner" loading="lazy"/></div>`).join('');
+  bannerTotal = imgs.length;
+  if(imgs.length>1){
+    bannerTimer = setInterval(()=>goBanner((bannerIdx+1)%imgs.length), 3500);
+  }
+}
+let bannerTotal = 0;
+function goBanner(n){
+  if(bannerTotal===0) return;
+  bannerIdx = ((n % bannerTotal) + bannerTotal) % bannerTotal;
+  const track = document.getElementById('bannerTrack');
+  if(track) track.style.transform = `translateX(-${bannerIdx*100}%)`;
+}
+
+// ══ ANNOUNCEMENT ══
+async function loadAnnouncement(){
+  try{
+    const data = await sbFetch('/rest/v1/announcements?select=*&is_active=eq.true&order=created_at.desc&limit=1');
+    if(data && data.length){
+      document.getElementById('annText').textContent = data[0].message;
+      document.getElementById('announceBar').style.display = 'flex';
+    }
+  }catch(e){ console.warn('announce:', e); }
+}
+
+// ══ INIT ══
+async function init(){
+  await loadBanners();
+  await loadAnnouncement();
+  products = await loadProducts();
+  displayList = [...products];
+  renderGrid(products);
+}
+
+function fmt(n){ return Number(n).toLocaleString(); }
+function waMsg(p){ return encodeURIComponent(`ສະບາຍດີ! ສົນໃຈຊື້ ID: ${p.title} (${p.id}) ລາຄາ ${fmt(p.price)} ກຣີບ 🙏`); }
+function rankIcon(r){ return RANK_ICON[r]||'🎮'; }
+
+function updateStats(){
+  const avail = products.filter(p=>p.status==='avail').length;
+  const sold  = products.filter(p=>p.status==='sold').length;
+  document.getElementById('sAvail').textContent = avail;
+  document.getElementById('sTotal').textContent = products.length;
+  document.getElementById('sSold').textContent  = sold;
+}
+
+const GAMESVG = `<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M6 12h4M8 10v4"/><circle cx="16" cy="11" r="1.5" fill="rgba(255,255,255,0.25)" stroke="none"/><circle cx="18" cy="13" r="1.5" fill="rgba(255,255,255,0.25)" stroke="none"/></svg>`;
+
+function renderGrid(list){
+  displayList = list;
+  const badge = document.getElementById('countBadge');
+  if(badge) badge.textContent = list.length;
+  const g = document.getElementById('grid');
+  if(!list.length){
+    g.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.25)">ບໍ່ມີລາຍການ</div>`;
+    return;
+  }
+  g.innerHTML = list.map((p,i)=>{
+    const imgSrc = p.imgs && p.imgs[0] ? p.imgs[0] : '';
+    const isSold = p.status==='sold';
+    const rank = (p.extras||[]).find(e=>e.k==='Rank'||e.k==='rank');
+    const skin = (p.extras||[]).find(e=>e.k==='Skin'||e.k==='ຈຳນວນ Skin'||e.k==='skins');
+    const hero = (p.extras||[]).find(e=>e.k==='Hero'||e.k==='ຈຳນວນ Hero'||e.k==='heroes');
+    return `
+    <a class="card" href="#" onclick="openDetail(${products.indexOf(p)});return false">
+      <div class="card-img-wrap">
+        <div class="card-img">
+          ${imgSrc ? `<img src="${imgSrc}" alt="${p.title}" loading="lazy" onerror="this.style.display='none'"/>` : GAMESVG}
+          <div class="stag ${p.status}">
+            ${isSold ? `ປິດແລ້ວ` : `✓ ພ້ອມເສີບ`}
+          </div>
+          ${p.isNew?`<div class="badge-new">NEW</div>`:''}
+          <div class="card-stats">
+            ${hero?`<div class="cs">👤 ${hero.v}</div>`:''}
+            ${skin?`<div class="cs">✨ ${skin.v}</div>`:''}
+            ${rank?`<div class="cs">${rankIcon(rank.v.split(' ')[0])} ${rank.v}</div>`:''}
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-id">${p.title}</div>
+        <div class="card-game">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M6 12h4M8 10v4"/><circle cx="16" cy="11" r="1" fill="currentColor" stroke="none"/></svg>
+          ${p.game}
+        </div>
+        <div>
+          <span class="card-price">${fmt(p.price)}</span>
+          <span style="font-size:.68rem;color:var(--orl);margin-left:3px">ກຣີບ ✅</span>
+          ${p.oldPrice?`<span class="card-price-old">${fmt(p.oldPrice)}</span>`:''}
+        </div>
+        <div class="card-date">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          ${p.date||''}
+        </div>
+        <div class="${isSold?'card-btn sold-btn':'card-btn'}">
+          ${isSold
+            ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> ປິດແລ້ວ`
+            : `ເບິ່ງລາຍລະອຽດ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`}
+        </div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+let currentCat = 'all';
+let fromCatPage = false;
+let catCurrentSort = 'newest';
+
+function openCatPage(game){
+  fromCatPage = true;
+  currentCat = game;
+  catCurrentSort = 'newest';
+  // reset sort chips
+  document.querySelectorAll('.cat-sc').forEach(c=>c.classList.remove('active'));
+  const firstChip = document.querySelector('.cat-sc');
+  if(firstChip) firstChip.classList.add('active');
+
+  document.getElementById('catPageTitle').textContent = game;
+  renderCatGrid();
+  const catPage = document.getElementById('catPage');
+  catPage.classList.add('show');
+  document.getElementById('homePage').style.visibility = 'hidden';
+  document.body.style.overflow = 'hidden';
+  window.scrollTo(0,0);
+}
+
+function renderCatGrid(){
+  let list = products.filter(p => p.game === currentCat);
+  if(catCurrentSort==='oldest') list.sort((a,b)=>new Date(a.created_at||a.date||0)-new Date(b.created_at||b.date||0));
+  else if(catCurrentSort==='newest') list.sort((a,b)=>new Date(b.created_at||b.date||0)-new Date(a.created_at||a.date||0));
+  else if(catCurrentSort==='price_asc') list.sort((a,b)=>a.price-b.price);
+  else if(catCurrentSort==='price_desc') list.sort((a,b)=>b.price-a.price);
+
+  const g = document.getElementById('catGrid');
+  if(!list.length){
+    g.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.35)">ບໍ່ມີ ID ໃນຂະນະນີ້</div>`;
+    return;
+  }
+  g.innerHTML = list.map((p)=>{
+    const imgSrc = p.imgs && p.imgs[0] ? p.imgs[0] : '';
+    const isSold = p.status==='sold';
+    const rank = (p.extras||[]).find(e=>e.k==='Rank'||e.k==='rank');
+    const skin = (p.extras||[]).find(e=>e.k==='Skin'||e.k==='ຈຳນວນ Skin'||e.k==='skins');
+    const hero = (p.extras||[]).find(e=>e.k==='Hero'||e.k==='ຈຳນວນ Hero'||e.k==='heroes');
+    const pidx = products.indexOf(p);
+    return `
+    <a class="card" href="#" onclick="openDetail(${pidx});return false">
+      <div class="card-img-wrap">
+        <div class="card-img">
+          ${imgSrc ? `<img src="${imgSrc}" alt="${p.title}" loading="lazy" onerror="this.style.display='none'"/>` : GAMESVG}
+          <div class="stag ${p.status}">
+            ${isSold ? `ປິດແລ້ວ` : `✓ ພ້ອມເສີບ`}
+          </div>
+          ${p.isNew?`<div class="badge-new">NEW</div>`:''}
+          <div class="card-stats">
+            ${hero?`<div class="cs">👤 ${hero.v}</div>`:''}
+            ${skin?`<div class="cs">✨ ${skin.v}</div>`:''}
+            ${rank?`<div class="cs">${rankIcon(rank.v.split(' ')[0])} ${rank.v}</div>`:''}
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-id">${p.title}</div>
+        <div class="card-game">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M6 12h4M8 10v4"/><circle cx="16" cy="11" r="1" fill="currentColor" stroke="none"/></svg>
+          ${p.game}
+        </div>
+        <div>
+          <span class="card-price">${fmt(p.price)}</span>
+          <span style="font-size:.68rem;color:var(--orl);margin-left:3px">ກຣີບ ✅</span>
+          ${p.oldPrice?`<span class="card-price-old">${fmt(p.oldPrice)}</span>`:''}
+        </div>
+        <div class="card-date">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          ${p.date||''}
+        </div>
+        <div class="${isSold?'card-btn sold-btn':'card-btn'}">
+          ${isSold
+            ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> ປິດແລ້ວ`
+            : `ເບິ່ງລາຍລະອຽດ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`}
+        </div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+function catSortBy(el, mode){
+  document.querySelectorAll('.cat-sc').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  catCurrentSort = mode;
+  renderCatGrid();
+}
+
+function closeCatPage(){
+  document.getElementById('catPage').classList.remove('show');
+  document.getElementById('homePage').style.visibility = '';
+  document.body.style.overflow = '';
+  fromCatPage = false;
+  currentCat = 'all';
+  window.scrollTo(0,0);
+}
+
+function sortBy(el, mode){
+  document.querySelectorAll('.sc').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters(mode);
+}
+
+let currentSort = 'newest';
+function applyFilters(mode){
+  if(mode) currentSort = mode;
+  let list = [...products];
+  if(currentSort==='newest') list.sort((a,b)=>new Date(b.created_at||b.date||0)-new Date(a.created_at||a.date||0));
+  else if(currentSort==='oldest') list.sort((a,b)=>new Date(a.created_at||a.date||0)-new Date(b.created_at||b.date||0));
+  else if(currentSort==='price_asc') list.sort((a,b)=>a.price-b.price);
+  else if(currentSort==='price_desc') list.sort((a,b)=>b.price-a.price);
+  renderGrid(list);
+}
+
+let currentIdx = 0;
+function openDetail(idx){
+  currentIdx = idx;
+  const p = products[idx];
+  const isSold = p.status==='sold';
+  const imgs = (p.imgs && p.imgs.length) ? p.imgs : [];
+
+  const mainImg = document.getElementById('dMainImg');
+  const existImg = mainImg.querySelector('img');
+  if(existImg) existImg.remove();
+  if(imgs[0]){
+    const img = document.createElement('img');
+    img.src = imgs[0]; img.alt = p.title;
+    img.onerror = ()=>img.style.display='none';
+    mainImg.prepend(img);
+  }
+
+  const strip = document.getElementById('dThumbStrip');
+  strip.style.display = imgs.length>1 ? 'flex' : 'none';
+  strip.innerHTML = imgs.map((src,i)=>`
+    <div class="thumb ${i===0?'active':''}" onclick="switchImg('${src}',this)">
+      <img src="${src}" alt="" onerror="this.style.display='none'"/>
+    </div>`).join('');
+
+  document.getElementById('dCrumb').innerHTML = `
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    ໜ້າຫຼັກ
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    ${p.game}
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    ${p.title}`;
+
+  document.getElementById('dIdBadge').textContent = `ID: ${p.id}`;
+  document.getElementById('dTitle').textContent = p.title;
+
+  document.getElementById('dMeta').innerHTML = `
+    <div class="dmeta">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M6 12h4M8 10v4"/></svg>
+      ${p.game}
+    </div>
+    ${p.isNew?`<div class="dmeta" style="background:rgba(255,107,26,0.15);color:var(--or)">🆕 NEW</div>`:''}`;
+
+  document.getElementById('dStatusRow').innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+      ${p.date ? `<span style="display:flex;align-items:center;gap:4px;font-size:.75rem;color:#aaa;font-weight:600;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${p.date}</span>` : ''}
+      <div class="detail-status-pill ${p.status}" style="margin-bottom:0">
+        ${isSold
+          ? `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> ປິດແລ້ວ`
+          : `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> ພ້ອມເສີບ`}
+      </div>
+    </div>`;
+
+  document.getElementById('dPriceBox').innerHTML = `
+    <div class="dp-lbl">ຄ່າໂຕ</div>
+    <div><span class="dp-val">${fmt(p.price)}</span><span class="dp-unit">ກຣີບ ✅</span></div>
+    ${p.oldPrice?`<div class="dp-old">${fmt(p.oldPrice)} ກຣີບ ✅</div>`:''}
+  `;
+
+  document.getElementById('dNote').innerHTML = p.desc
+    ? `<div style="font-size:.75rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">ລາຍລະອຽດ</div>
+       <div style="font-size:.88rem;color:#444;line-height:1.75">${p.desc.replace(/\n/g,'<br>')}</div>`
+    : `<div style="font-size:.88rem;color:#bbb">ບໍ່ມີ</div>`;
+
+  document.getElementById('dBuyBtn').innerHTML = isSold
+    ? `<button class="buy-btn disabled" disabled>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        ປິດແລ້ວ
+      </button>`
+    : `<a href="https://wa.me/${WA}?text=${waMsg(p)}" target="_blank" class="buy-btn">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.954 9.954 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.946 7.946 0 01-4.031-1.094l-.29-.172-2.952.775.787-2.873-.189-.295A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+        ສັ່ງຊື້ WhatsApp ດ່ວນ!
+      </a>`;
+
+  const detail = document.getElementById('detailPage');
+  detail.classList.add('show');
+  document.getElementById('homePage').style.visibility = 'hidden';
+  document.body.style.overflow = 'hidden';
+  window.scrollTo(0,0);
+}
+
+function switchImg(src, el){
+  const main = document.querySelector('#dMainImg img');
+  if(main){
+    main.classList.add('fading');
+    setTimeout(()=>{
+      main.src = src;
+      main.style.display = '';
+      main.classList.remove('fading');
+    }, 200);
+  }
+  document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function showHome(){
+  document.getElementById('detailPage').classList.remove('show');
+  document.getElementById('homePage').style.visibility = '';
+  document.body.style.overflow = '';
+  window.scrollTo(0,0);
+}
+
+window.addEventListener('popstate',()=>{
+  if(document.getElementById('detailPage').classList.contains('show')) showHome();
+});
+
+init();
+</script>
+</body>
+</html>
