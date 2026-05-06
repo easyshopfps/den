@@ -297,8 +297,8 @@
     .announce-bar{margin:10px 16px 0;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:50px;padding:7px 14px;display:flex;align-items:center;gap:8px;overflow:hidden}
     .ann-tag{display:flex;align-items:center;gap:5px;background:var(--or);color:#fff;border-radius:50px;padding:3px 10px;font-size:.65rem;font-weight:700;white-space:nowrap;flex-shrink:0}
     .ann-scroll{overflow:hidden;flex:1}
-    .ann-text{white-space:nowrap;font-size:.82rem;font-weight:700;color:#fff;animation:marquee 18s linear infinite}
-    @keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+    .ann-text{white-space:nowrap;font-size:.82rem;font-weight:700;color:#fff}
+    /* marquee is applied dynamically via JS to calculate correct duration */
 
     footer{background:var(--bg2);border-top:1px solid rgba(255,255,255,0.06);padding:36px 18px 28px;text-align:center;font-size:.82rem;color:var(--muted)}
     .foot-brand{font-family:'Noto Serif Lao',serif;font-size:1.1rem;font-weight:900;color:var(--orl);margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:8px}
@@ -635,8 +635,25 @@ async function loadAnnouncement(){
   try{
     const data = await sbFetch('/rest/v1/announcements?select=*&is_active=eq.true&order=created_at.desc&limit=1');
     if(data && data.length){
-      document.getElementById('annText').textContent = data[0].message;
+      const el = document.getElementById('annText');
+      el.textContent = data[0].message;
       document.getElementById('announceBar').style.display = 'flex';
+      // Wait for layout then calculate scroll duration so text fully exits before looping
+      requestAnimationFrame(()=>{
+        const container = el.parentElement; // .ann-scroll
+        const textW = el.scrollWidth;
+        const containerW = container.offsetWidth;
+        const totalTravel = textW + containerW; // start at right edge, end when fully left
+        // speed ~ 80px/s feels comfortable for reading
+        const speed = 80;
+        const duration = Math.max(8, totalTravel / speed);
+        // inject keyframe
+        const styleId = 'ann-style';
+        let st = document.getElementById(styleId);
+        if(!st){ st = document.createElement('style'); st.id = styleId; document.head.appendChild(st); }
+        st.textContent = `@keyframes marquee{0%{transform:translateX(${containerW}px)}100%{transform:translateX(-${textW}px)}}`;
+        el.style.animation = `marquee ${duration}s linear infinite`;
+      });
     }
   }catch(e){ console.warn('announce:', e); }
 }
@@ -666,6 +683,8 @@ async function init(){
           st2.textContent = `.sort-card { background: ${cfg[0].sort_bg} !important; border-color: ${isLight(cfg[0].sort_bg) ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.1)'} !important; } .sort-label { color: ${isLight(cfg[0].sort_bg) ? '#888' : 'rgba(255,255,255,0.6)'} !important; }`;
           document.head.appendChild(st2);
         }
+        // apply detail page theme (dark/light)
+        applyDetailTheme(cfg[0].detail_theme === 'dark' ? 'dark' : 'light');
         // apply font
         if(cfg[0].font){
           const fontMap = {
@@ -682,6 +701,7 @@ async function init(){
           }
         }
       }
+    }
     }catch(e){ /* ignore — use defaults */ }
 
     await loadBanners();
@@ -699,7 +719,40 @@ async function init(){
   }
 }
 
-function fmt(n){ return Number(n).toLocaleString(); }
+// ── DETAIL PAGE THEME ──
+function applyDetailTheme(mode){
+  const det = document.getElementById('detailPage');
+  if(!det) return;
+  if(mode === 'dark'){
+    det.style.background = '#0D1B35';
+    const styleId = 'detail-dark-style';
+    let st = document.getElementById(styleId);
+    if(!st){ st = document.createElement('style'); st.id = styleId; document.head.appendChild(st); }
+    st.textContent = `
+      #detailPage { background:#0D1B35 !important; }
+      #detailPage .detail-back { background:#122040; border-bottom-color:rgba(255,255,255,0.07); color:#FF8C42; }
+      #detailPage .detail-img-wrap { background:#122040; }
+      #detailPage .thumb-strip { background:#122040; }
+      #detailPage .detail-title { color:#ffffff !important; }
+      #detailPage .drow .dk { color:rgba(255,255,255,0.45); }
+      #detailPage .drow .dv { color:#ffffff; }
+      #detailPage .drow { border-bottom-color:rgba(255,255,255,0.06); }
+      #detailPage .detail-table { background:#162444; border-color:rgba(255,255,255,0.07); }
+      #detailPage .detail-footer { background:linear-gradient(to top,#0D1B35 80%,rgba(13,27,53,0)); }
+      #detailPage .dp-lbl { color:rgba(255,255,255,0.45); }
+      #detailPage #dNote { color:rgba(255,255,255,0.75) !important; }
+      #detailPage #dNote > div:first-child { color:rgba(255,255,255,0.4) !important; }
+      #detailPage .detail-crumb { color:rgba(255,255,255,0.35); }
+      #detailPage .detail-price-box { background:rgba(255,107,26,0.1); border-color:rgba(255,107,26,0.25); }
+    `;
+  } else {
+    // light — remove dark style if exists
+    const st = document.getElementById('detail-dark-style');
+    if(st) st.remove();
+  }
+}
+
+
 // ข้อความ WA: แสดงชื่อสินค้า + เกม แต่ไม่แสดง UUID
 function waMsg(p){ return encodeURIComponent(`ສະບາຍດີ! ສົນໃຈຊື້ໄອດີ: ${p.title}\nເກມ: ${p.game}\nລາຄາ: ${fmt(p.price)} ກຣີບ 🙏`); }
 function rankIcon(r){ return RANK_ICON[r]||'🎮'; }
@@ -723,8 +776,7 @@ function alreadyPurchased(p){
 function handleBuyClick(idx){
   const p = products[idx];
   if(alreadyPurchased(p)){
-    // show warning overlay
-    document.getElementById('dupOverlay').classList.add('open');
+    // already bought — do nothing (button is hidden anyway)
     return;
   }
   markPurchased(p);
@@ -990,15 +1042,11 @@ function openDetail(idx){
         ປິດແລ້ວ
       </button>`
     : alreadyBought
-    ? `<div style="display:flex;flex-direction:column;gap:8px;max-width:540px;margin:0 auto">
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(240,160,0,0.12);border:1.5px solid rgba(240,160,0,0.3);border-radius:14px;padding:10px 16px;font-size:.82rem;color:#F0A000;font-weight:700">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          ທ່ານໄດ້ສັ່ງຊື້ໄອດີນີ້ໄປແລ້ວ (${p.game})
+    ? `<div style="max-width:540px;margin:0 auto">
+        <div style="display:flex;align-items:center;gap:8px;background:rgba(240,160,0,0.12);border:1.5px solid rgba(240,160,0,0.3);border-radius:14px;padding:14px 16px;font-size:.85rem;color:#F0A000;font-weight:700">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          ທ່ານໄດ້ສັ່ງຊື້ໄອດີນີ້ (${p.game}) ໄປແລ້ວ — ບໍ່ສາມາດຊື້ຊ້ຳໄດ້
         </div>
-        <button onclick="handleBuyClick(${idx})" class="buy-btn" style="background:rgba(255,255,255,0.12);box-shadow:none">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.954 9.954 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.946 7.946 0 01-4.031-1.094l-.29-.172-2.952.775.787-2.873-.189-.295A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
-          ສັ່ງຊື້ອີກຄັ້ງ (ໄດ້ຖ້ານຕ້ອງການ)
-        </button>
       </div>`
     : `<button onclick="handleBuyClick(${idx})" class="buy-btn">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.954 9.954 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.946 7.946 0 01-4.031-1.094l-.29-.172-2.952.775.787-2.873-.189-.295A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
