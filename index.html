@@ -22,6 +22,61 @@
     body.light-mode footer{background:#E8ECF5;border-top-color:rgba(0,0,0,0.06)}
     body.light-mode .announce-bar{background:rgba(255,107,26,0.07);border-color:rgba(255,107,26,0.2)}
     body.light-mode .ann-text{color:var(--ord)}
+
+    /* ── PRICE SEARCH ── */
+    .price-search-wrap{margin:0 0 14px}
+    .price-search-inner{
+      background:#fff;border-radius:14px;padding:12px 14px;
+      box-shadow:0 2px 12px rgba(0,0,0,0.08);
+      border:1px solid rgba(0,0,0,0.06);
+    }
+    body:not(.light-mode) .price-search-inner{
+      background:#162444;border-color:rgba(255,255,255,0.07);
+      box-shadow:0 2px 12px rgba(0,0,0,0.25);
+    }
+    .price-search-icon{
+      flex-shrink:0;margin-left:12px;
+      color:rgba(255,107,26,0.5);pointer-events:none;
+    }
+    .price-search-row{display:flex;gap:8px;align-items:center;width:100%}
+    .price-search-input-wrap{
+      flex:1;min-width:0;display:flex;align-items:center;
+      background:rgba(255,107,26,0.06);
+      border:1.5px solid rgba(255,107,26,0.18);
+      border-radius:10px;
+      transition:border-color .18s;
+      overflow:hidden;
+    }
+    .price-search-input-wrap:focus-within{border-color:var(--or)}
+    body.light-mode .price-search-input-wrap{background:rgba(255,107,26,0.05)}
+    .price-search-input{
+      flex:1;min-width:0;background:transparent;border:none;
+      padding:9px 13px;
+      font-family:'Noto Sans Lao',sans-serif;font-size:.82rem;font-weight:700;
+      color:var(--or);outline:none;
+    }
+    .price-search-input::placeholder{color:rgba(255,107,26,0.35);font-weight:400;font-size:.78rem}
+    .price-search-btn{
+      flex-shrink:0;padding:9px 16px;border-radius:10px;border:none;cursor:pointer;
+      background:linear-gradient(135deg,var(--or),var(--ord));
+      color:#fff;font-family:'Noto Sans Lao',sans-serif;
+      font-size:.8rem;font-weight:700;white-space:nowrap;
+      transition:transform .15s;
+    }
+    .price-search-btn:hover{transform:translateY(-1px)}
+    .price-search-clear{
+      flex-shrink:0;width:30px;height:30px;margin-right:4px;
+      border-radius:8px;border:none;
+      background:rgba(255,107,26,0.12);color:var(--or);cursor:pointer;
+      font-size:.8rem;font-weight:700;transition:all .15s;
+      display:none;align-items:center;justify-content:center;
+    }
+    .price-search-clear.show{display:flex}
+    .price-result-label{
+      font-family:'Noto Sans Lao',sans-serif;font-size:.88rem;font-weight:900;
+      color:var(--orl);display:flex;align-items:center;gap:6px;
+      margin:14px 0 10px;
+    }
     /* ── PAGE LOADING SCREEN ── */
     #pageLoader{
       position:fixed;inset:0;z-index:9999;
@@ -49,7 +104,7 @@
     .logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
     .logo-icon{width:36px;height:36px;background:rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;border:1.5px solid rgba(255,255,255,0.3)}
     .logo-wrap{display:flex;flex-direction:column;line-height:1.2}
-    .logo-main{font-family:'Noto Serif Lao',serif;font-weight:900;font-size:.95rem;color:#fff}
+    .logo-main{font-family:'Noto Sans Lao',sans-serif;font-weight:900;font-size:.95rem;color:#fff}
     .logo-sub{font-size:.62rem;color:rgba(255,255,255,0.8);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
     .wa-btn{
       display:flex;align-items:center;gap:7px;
@@ -69,7 +124,7 @@
     .hero-r{position:absolute;border-radius:50%;background:rgba(255,255,255,0.06);pointer-events:none}
     .hero-r1{width:200px;height:200px;top:-60px;right:-40px}
     .hero-r2{width:100px;height:100px;bottom:40px;left:10px}
-    .hero h1{font-family:'Noto Serif Lao',serif;font-weight:900;font-size:clamp(1.7rem,6vw,2.8rem);color:#fff;line-height:1.2;text-shadow:0 2px 16px rgba(0,0,0,0.2);margin-bottom:8px}
+    .hero h1{font-family:'Noto Sans Lao',sans-serif;font-weight:900;font-size:clamp(1.7rem,6vw,2.8rem);color:#fff;line-height:1.2;text-shadow:0 2px 16px rgba(0,0,0,0.2);margin-bottom:8px}
     .hero p{color:rgba(255,255,255,0.9);font-size:.9rem;max-width:380px;margin:0 auto 24px;line-height:1.65}
     .hero-stats{display:flex;justify-content:center;gap:32px;margin-bottom:28px}
     .hs{display:flex;flex-direction:column;align-items:center}
@@ -102,7 +157,7 @@
     }
     .sc.active,.sc:hover{background:var(--or);border-color:var(--or);color:#fff;box-shadow:0 3px 12px rgba(255,107,26,0.3)}
     .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-    .sec-title{font-family:'Noto Serif Lao',serif;font-size:1rem;font-weight:900;color:var(--orl);display:flex;align-items:center;gap:8px}
+    .sec-title{font-family:'Noto Sans Lao',sans-serif;font-size:1rem;font-weight:900;color:var(--orl);display:flex;align-items:center;gap:8px}
     .cnt{background:rgba(255,107,26,0.15);color:var(--or);font-size:.72rem;font-weight:700;padding:2px 10px;border-radius:20px;font-family:'Noto Sans Lao',sans-serif}
 
     .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding-bottom:60px}
@@ -165,7 +220,7 @@
     }
 
     .card-body{padding:10px 12px 12px}
-    .card-id{font-family:'Oswald',sans-serif;font-weight:700;font-size:.98rem;color:#1a1a1a;margin-bottom:2px}
+    .card-id{font-family:'Noto Sans Lao',sans-serif;font-weight:700;font-size:.98rem;color:#1a1a1a;margin-bottom:2px}
     .card-game{font-size:.68rem;color:#888;margin-bottom:8px;display:flex;align-items:center;gap:4px}
     .card-price{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.05rem;color:var(--or)}
     .card-price-old{font-size:.68rem;color:#bbb;text-decoration:line-through;margin-left:5px}
@@ -236,7 +291,7 @@
     .detail-body{padding:18px 18px 100px;max-width:600px;margin:0 auto}
     .detail-crumb{font-size:.72rem;color:#aaa;display:flex;align-items:center;gap:5px;margin-bottom:10px}
     .detail-id-badge{display:none;}
-    .detail-title{font-family:'Noto Serif Lao',serif;font-weight:900;font-size:1.3rem;color:#1a1a1a;margin-bottom:6px;line-height:1.3}
+    .detail-title{font-family:'Noto Sans Lao',sans-serif;font-weight:900;font-size:1.3rem;color:#1a1a1a;margin-bottom:6px;line-height:1.3}
     .detail-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
     .dmeta{display:flex;align-items:center;gap:5px;background:rgba(255,107,26,0.08);border-radius:20px;padding:5px 12px;font-size:.76rem;color:var(--or);font-weight:600}
 
@@ -272,7 +327,7 @@
       width:100%;max-width:540px;margin:0 auto;
       background:linear-gradient(135deg,#25D366,#1EAD52);
       color:#fff;border:none;border-radius:50px;padding:15px 24px;
-      font-family:'Noto Serif Lao',serif;font-size:1rem;font-weight:900;
+      font-family:'Noto Sans Lao',sans-serif;font-size:1rem;font-weight:900;
       cursor:pointer;box-shadow:0 5px 20px rgba(37,211,102,0.3);
       transition:transform .18s,box-shadow .18s;text-decoration:none;
     }
@@ -298,10 +353,10 @@
     .ann-tag{display:flex;align-items:center;gap:5px;background:var(--or);color:#fff;border-radius:50px;padding:3px 10px;font-size:.65rem;font-weight:700;white-space:nowrap;flex-shrink:0}
     .ann-scroll{overflow:hidden;flex:1}
     .ann-text{white-space:nowrap;font-size:.82rem;font-weight:700;color:#fff}
-    /* marquee is applied dynamically via JS to calculate correct duration */
+    @keyframes marquee{0%{transform:translateX(var(--ann-start,100%))}100%{transform:translateX(var(--ann-end,-100%))}}
 
     footer{background:var(--bg2);border-top:1px solid rgba(255,255,255,0.06);padding:36px 18px 28px;text-align:center;font-size:.82rem;color:var(--muted)}
-    .foot-brand{font-family:'Noto Serif Lao',serif;font-size:1.1rem;font-weight:900;color:var(--orl);margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:8px}
+    .foot-brand{font-family:'Noto Sans Lao',sans-serif;font-size:1.1rem;font-weight:900;color:var(--orl);margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:8px}
     .foot-desc{line-height:1.8;margin-bottom:18px}
     .foot-wa{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#25D366,#1EAD52);color:#fff;padding:11px 24px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.85rem;box-shadow:0 4px 16px rgba(37,211,102,0.25);transition:transform .18s}
     .foot-wa:hover{transform:translateY(-2px)}
@@ -309,7 +364,7 @@
 
     /* CATEGORY */
     .cat-section{padding:16px 16px 0}
-    .cat-title{font-family:'Noto Serif Lao',serif;font-size:.95rem;font-weight:900;color:var(--orl);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+    .cat-title{font-family:'Noto Sans Lao',sans-serif;font-size:.95rem;font-weight:900;color:var(--orl);margin-bottom:12px;display:flex;align-items:center;gap:6px}
     .cat-row{display:flex;flex-direction:column;gap:10px}
     .cat-row.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .cat-item{cursor:pointer;border-radius:14px;overflow:hidden;border:2px solid rgba(255,107,26,0.18);background:#162444;transition:border-color .2s,transform .18s}
@@ -338,7 +393,7 @@
     .cat-sort-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 
     /* SECTION HEADING */
-    .all-ids-title{font-family:'Noto Serif Lao',serif;font-size:.95rem;font-weight:900;color:var(--orl);margin:18px 0 0;display:flex;align-items:center;gap:6px}
+    .all-ids-title{font-family:'Noto Sans Lao',sans-serif;font-size:.95rem;font-weight:900;color:var(--orl);margin:18px 0 0;display:flex;align-items:center;gap:6px}
 
     @media(max-width:500px){
       .grid{grid-template-columns:repeat(2,1fr);gap:10px}
@@ -423,6 +478,27 @@
       ໄອດີເກມທັງໝົດ
     </div>
     <div class="sort-section">
+      <!-- PRICE SEARCH -->
+      <div class="price-search-wrap">
+        <div class="price-search-inner">
+          <div class="price-search-row">
+            <div class="price-search-input-wrap">
+              <svg class="price-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input
+                type="text" inputmode="numeric"
+                id="priceSearchInput"
+                class="price-search-input"
+                placeholder="ຊອກຫາໄອດີງົບທີ່ທ່ານຕ້ອງການ"
+                oninput="onPriceInput(this)"
+                onkeydown="if(event.key==='Enter') doPriceSearch()"
+              />
+              <button class="price-search-clear" id="priceSearchClear" onclick="clearPriceSearch()">✕</button>
+            </div>
+            <button class="price-search-btn" onclick="doPriceSearch()">ຊອກຫາ</button>
+          </div>
+        </div>
+      </div>
+
       <div class="sort-card">
       <div class="sort-label">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
@@ -493,7 +569,7 @@
     <div class="detail-meta" id="dMeta"></div>
     <div id="dStatusRow"></div>
     <div class="detail-price-box" id="dPriceBox"></div>
-    <div id="dNote" style="margin-bottom:18px;font-size:.85rem;color:#666;line-height:1.7"></div>
+    <div id="dNote" style="margin-bottom:18px;font-size:.85rem;color:#bbb;line-height:1.7"></div>
   </div>
   <div class="detail-footer">
     <div id="dBuyBtn"></div>
@@ -507,6 +583,26 @@
     <span id="catPageTitle">ໝວດໝູ່</span>
   </div>
   <div class="wrap" style="padding-top:16px;padding-bottom:60px">
+    <!-- CAT PRICE SEARCH -->
+    <div class="price-search-wrap">
+      <div class="price-search-inner">
+        <div class="price-search-row">
+          <div class="price-search-input-wrap">
+            <svg class="price-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input
+              type="text" inputmode="numeric"
+              id="catPriceSearchInput"
+              class="price-search-input"
+              placeholder="ຊອກຫາໄອດີງົບທີ່ທ່ານຕ້ອງການ"
+              oninput="onCatPriceInput(this)"
+              onkeydown="if(event.key==='Enter') doCatPriceSearch()"
+            />
+            <button class="price-search-clear" id="catPriceSearchClear" onclick="clearCatPriceSearch()">✕</button>
+          </div>
+          <button class="price-search-btn" onclick="doCatPriceSearch()">ຊອກຫາ</button>
+        </div>
+      </div>
+    </div>
     <div class="cat-sort-section">
       <div class="sort-card">
         <div class="sort-label">
@@ -635,23 +731,18 @@ async function loadAnnouncement(){
   try{
     const data = await sbFetch('/rest/v1/announcements?select=*&is_active=eq.true&order=created_at.desc&limit=1');
     if(data && data.length){
-      const el = document.getElementById('annText');
-      el.textContent = data[0].message;
+      document.getElementById('annText').textContent = data[0].message;
       document.getElementById('announceBar').style.display = 'flex';
-      // Wait for layout then calculate scroll duration so text fully exits before looping
+      // คำนวณ duration ให้ scroll จนสุดก่อน loop ใหม่
       requestAnimationFrame(()=>{
-        const container = el.parentElement; // .ann-scroll
+        const el = document.getElementById('annText');
+        const container = el.parentElement;
         const textW = el.scrollWidth;
-        const containerW = container.offsetWidth;
-        const totalTravel = textW + containerW; // start at right edge, end when fully left
-        // speed ~ 80px/s feels comfortable for reading
-        const speed = 80;
-        const duration = Math.max(8, totalTravel / speed);
-        // inject keyframe
-        const styleId = 'ann-style';
-        let st = document.getElementById(styleId);
-        if(!st){ st = document.createElement('style'); st.id = styleId; document.head.appendChild(st); }
-        st.textContent = `@keyframes marquee{0%{transform:translateX(${containerW}px)}100%{transform:translateX(-${textW}px)}}`;
+        const contW = container.offsetWidth;
+        // เริ่มจากขวา (contW) ไปจนออกซ้าย (-textW)
+        const duration = Math.max(10, (textW + contW) / 75);
+        el.style.setProperty('--ann-start', contW + 'px');
+        el.style.setProperty('--ann-end',  '-' + textW + 'px');
         el.style.animation = `marquee ${duration}s linear infinite`;
       });
     }
@@ -683,8 +774,8 @@ async function init(){
           st2.textContent = `.sort-card { background: ${cfg[0].sort_bg} !important; border-color: ${isLight(cfg[0].sort_bg) ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.1)'} !important; } .sort-label { color: ${isLight(cfg[0].sort_bg) ? '#888' : 'rgba(255,255,255,0.6)'} !important; }`;
           document.head.appendChild(st2);
         }
-        // apply detail page theme (dark/light)
-        applyDetailTheme(cfg[0].detail_theme === 'dark' ? 'dark' : 'light');
+        // apply detail page theme
+        if(cfg[0].detail_theme) applyDetailTheme(cfg[0].detail_theme);
         // apply font
         if(cfg[0].font){
           const fontMap = {
@@ -696,7 +787,8 @@ async function init(){
           const fontVal = fontMap[cfg[0].font];
           if(fontVal){
             const stFont = document.createElement('style');
-            stFont.textContent = `body, .card-id, .card-game, .detail-title, .detail-body { font-family: ${fontVal} !important; }`;
+            // Apply chosen font to text elements only — Oswald stays locked for numbers (.hs-num, .card-price, .dp-val)
+            stFont.textContent = `body, .card-id, .card-game, .detail-title, .detail-body, .price-search-input, .sort-label, .sc, .wa-btn, .hero p, .logo-main, .logo-sub, .sec-title, .all-ids-title, .cat-title, .foot-brand, .card-btn, .price-result-label, .ann-text, .price-search-btn, .buy-btn, .detail-back, .foot-wa, .cat-page-back { font-family: ${fontVal} !important; }`;
             document.head.appendChild(stFont);
           }
         }
@@ -718,40 +810,115 @@ async function init(){
   }
 }
 
-// ── DETAIL PAGE THEME ──
+function fmt(n){ return Number(n).toLocaleString(); }
+
+// ── PRICE SEARCH ──
+function onPriceInput(el){
+  // auto-format with commas as user types
+  let raw = el.value.replace(/[^0-9]/g,'');
+  if(raw) el.value = Number(raw).toLocaleString();
+  else el.value = '';
+  // show/hide clear button
+  document.getElementById('priceSearchClear').classList.toggle('show', raw.length > 0);
+}
+
+function doPriceSearch(){
+  const raw = document.getElementById('priceSearchInput').value.replace(/[^0-9]/g,'');
+  if(!raw){ clearPriceSearch(); return; }
+  const target = parseInt(raw);
+  // tolerance ±20%
+  const tol = target * 0.20;
+  const near = products
+    .filter(p => Math.abs(p.price - target) <= tol)
+    .sort((a,b) => Math.abs(a.price - target) - Math.abs(b.price - target));
+
+  const grid = document.getElementById('grid');
+  if(!near.length){
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:40px 16px">
+        <div style="font-size:2.2rem;margin-bottom:10px">🔍</div>
+        <div style="font-size:.88rem;font-weight:700;color:var(--muted);line-height:1.7">
+          ບໍ່ມີສິນຄ້າລາຄາ <span style="color:var(--or)">${Number(target).toLocaleString()}</span> ກຣີບ<br>
+          <span style="font-size:.75rem;opacity:.7">ລອງໃສ່ລາຄາອື່ນ ຫຼື ກົດ ✕ ເພື່ອດູທັງໝົດ</span>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // render with "ສິນຄ້າທີ່ໃກ້ຄຽງ" label if not exact
+  const hasExact = near.some(p => p.price === target);
+  const labelHtml = `
+    <div class="price-result-label" style="grid-column:1/-1">
+      ${hasExact
+        ? `✅ ພົບໄອດີງົບ ${Number(target).toLocaleString()} ກຣີບ (${near.length} ລາຍການ)`
+        : `🔎 ໄອດີງົບທີ່ໃກ້ຄຽງ ${Number(target).toLocaleString()} ກຣີບ (${near.length} ລາຍການ)`}
+    </div>`;
+
+  // reuse renderGrid logic but inject label first
+  displayList = near;
+  const badge = document.getElementById('countBadge');
+  if(badge) badge.textContent = near.length;
+  grid.innerHTML = labelHtml + near.map((p)=>{
+    const imgSrc = p.imgs && p.imgs[0] ? p.imgs[0] : '';
+    const isSold = p.status==='sold';
+    const rank = (p.extras||[]).find(e=>e.k==='Rank'||e.k==='rank');
+    const skin = (p.extras||[]).find(e=>e.k==='Skin'||e.k==='ຈຳນວນ Skin'||e.k==='skins');
+    const hero = (p.extras||[]).find(e=>e.k==='Hero'||e.k==='ຈຳນວນ Hero'||e.k==='heroes');
+    const idx = products.indexOf(p);
+    return `
+    <a class="card" href="#" onclick="openDetail(${idx});return false">
+      <div class="card-img-wrap">
+        <div class="card-img">
+          ${imgSrc ? `<img src="${imgSrc}" alt="${p.title}" loading="lazy" onerror="this.style.display='none'"/>` : GAMESVG}
+          <div class="stag ${p.status}">${isSold?'ປິດແລ້ວ':'✓ ພ້ອມເສີບ'}</div>
+          ${p.isNew?`<div class="badge-new">NEW</div>`:''}
+          <div class="card-stats">
+            ${hero?`<div class="cs">👤 ${hero.v}</div>`:''}
+            ${skin?`<div class="cs">✨ ${skin.v}</div>`:''}
+            ${rank?`<div class="cs">${rankIcon(rank.v.split(' ')[0])} ${rank.v}</div>`:''}
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-id">${p.title}</div>
+        <div class="card-game"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M6 12h4M8 10v4"/><circle cx="16" cy="11" r="1" fill="currentColor" stroke="none"/></svg> ${p.game}</div>
+        <div><span class="card-price">${fmt(p.price)}</span><span style="font-size:.68rem;color:var(--orl);margin-left:3px">ກຣີບ ✅</span></div>
+        <div class="${isSold?'card-btn sold-btn':'card-btn'}">${isSold?'ປິດແລ້ວ':'ເບິ່ງລາຍລະອຽດ'}</div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+function clearPriceSearch(){
+  document.getElementById('priceSearchInput').value = '';
+  document.getElementById('priceSearchClear').classList.remove('show');
+  renderGrid(products);
+}
+
 function applyDetailTheme(mode){
-  const det = document.getElementById('detailPage');
-  if(!det) return;
+  const styleId = 'detail-dark-style';
+  let st = document.getElementById(styleId);
   if(mode === 'dark'){
-    det.style.background = '#0D1B35';
-    const styleId = 'detail-dark-style';
-    let st = document.getElementById(styleId);
     if(!st){ st = document.createElement('style'); st.id = styleId; document.head.appendChild(st); }
     st.textContent = `
-      #detailPage { background:#0D1B35 !important; }
-      #detailPage .detail-back { background:#122040; border-bottom-color:rgba(255,255,255,0.07); color:#FF8C42; }
-      #detailPage .detail-img-wrap { background:#122040; }
-      #detailPage .thumb-strip { background:#122040; }
-      #detailPage .detail-title { color:#ffffff !important; }
-      #detailPage .drow .dk { color:rgba(255,255,255,0.45); }
-      #detailPage .drow .dv { color:#ffffff; }
-      #detailPage .drow { border-bottom-color:rgba(255,255,255,0.06); }
-      #detailPage .detail-table { background:#162444; border-color:rgba(255,255,255,0.07); }
-      #detailPage .detail-footer { background:linear-gradient(to top,#0D1B35 80%,rgba(13,27,53,0)); }
-      #detailPage .dp-lbl { color:rgba(255,255,255,0.45); }
-      #detailPage #dNote { color:rgba(255,255,255,0.75) !important; }
-      #detailPage #dNote > div:first-child { color:rgba(255,255,255,0.4) !important; }
-      #detailPage .detail-crumb { color:rgba(255,255,255,0.35); }
-      #detailPage .detail-price-box { background:rgba(255,107,26,0.1); border-color:rgba(255,107,26,0.25); }
+      #detailPage{background:#0D1B35!important}
+      #detailPage .detail-back{background:#122040;border-bottom-color:rgba(255,255,255,0.07);color:#FF8C42}
+      #detailPage .detail-img-wrap,#detailPage .thumb-strip{background:#122040}
+      #detailPage .detail-title{color:#fff!important}
+      #detailPage .detail-table{background:#162444;border-color:rgba(255,255,255,0.07)}
+      #detailPage .drow{border-bottom-color:rgba(255,255,255,0.06)}
+      #detailPage .drow .dk{color:rgba(255,255,255,0.45)}
+      #detailPage .drow .dv{color:#fff}
+      #detailPage .detail-footer{background:linear-gradient(to top,#0D1B35 80%,rgba(13,27,53,0))}
+      #detailPage .dp-lbl{color:rgba(255,255,255,0.45)}
+      #detailPage .detail-crumb{color:rgba(255,255,255,0.35)}
+      #detailPage .detail-price-box{background:rgba(255,107,26,0.1);border-color:rgba(255,107,26,0.25)}
+      #detailPage #dNote{color:rgba(255,255,255,0.75)!important}
     `;
   } else {
-    // light — remove dark style if exists
-    const st = document.getElementById('detail-dark-style');
     if(st) st.remove();
   }
 }
-
-
 // ข้อความ WA: แสดงชื่อสินค้า + เกม แต่ไม่แสดง UUID
 function waMsg(p){ return encodeURIComponent(`ສະບາຍດີ! ສົນໃຈຊື້ໄອດີ: ${p.title}\nເກມ: ${p.game}\nລາຄາ: ${fmt(p.price)} ກຣີບ 🙏`); }
 function rankIcon(r){ return RANK_ICON[r]||'🎮'; }
@@ -775,7 +942,8 @@ function alreadyPurchased(p){
 function handleBuyClick(idx){
   const p = products[idx];
   if(alreadyPurchased(p)){
-    // already bought — do nothing (button is hidden anyway)
+    // show warning overlay
+    document.getElementById('dupOverlay').classList.add('open');
     return;
   }
   markPurchased(p);
@@ -866,6 +1034,11 @@ function openCatPage(game){
   document.querySelectorAll('.cat-sc').forEach(c=>c.classList.remove('active'));
   const firstChip = document.querySelector('.cat-sc');
   if(firstChip) firstChip.classList.add('active');
+  // reset cat price search
+  const inp = document.getElementById('catPriceSearchInput');
+  if(inp) inp.value = '';
+  const clr = document.getElementById('catPriceSearchClear');
+  if(clr) clr.classList.remove('show');
 
   document.getElementById('catPageTitle').textContent = game;
   renderCatGrid();
@@ -885,7 +1058,7 @@ function renderCatGrid(){
 
   const g = document.getElementById('catGrid');
   if(!list.length){
-    g.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.35)">ບໍ່ມີ ID ໃນຂະນະນີ້</div>`;
+    g.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.35)">ບໍ່ມີໄອດີໃນຂະນະນີ້</div>`;
     return;
   }
   g.innerHTML = list.map((p)=>{
@@ -936,6 +1109,83 @@ function renderCatGrid(){
   }).join('');
 }
 
+function onCatPriceInput(el){
+  let raw = el.value.replace(/[^0-9]/g,'');
+  if(raw) el.value = Number(raw).toLocaleString();
+  else el.value = '';
+  document.getElementById('catPriceSearchClear').classList.toggle('show', raw.length > 0);
+}
+
+function doCatPriceSearch(){
+  const raw = document.getElementById('catPriceSearchInput').value.replace(/[^0-9]/g,'');
+  if(!raw){ clearCatPriceSearch(); return; }
+  const target = parseInt(raw);
+  const tol = target * 0.20;
+  // Filter by current category first, then by price
+  const catProducts = products.filter(p => p.game === currentCat);
+  const near = catProducts
+    .filter(p => Math.abs(p.price - target) <= tol)
+    .sort((a,b) => Math.abs(a.price - target) - Math.abs(b.price - target));
+
+  const g = document.getElementById('catGrid');
+  if(!near.length){
+    g.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:40px 16px">
+        <div style="font-size:2.2rem;margin-bottom:10px">🔍</div>
+        <div style="font-size:.88rem;font-weight:700;color:var(--muted);line-height:1.7">
+          ບໍ່ມີໄອດີງົບ <span style="color:var(--or)">${Number(target).toLocaleString()}</span> ກຣີບ<br>
+          <span style="font-size:.75rem;opacity:.7">ລອງໃສ່ງົບອື່ນ ຫຼື ກົດ ✕ ເພື່ອດູທັງໝົດ</span>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const hasExact = near.some(p => p.price === target);
+  const labelHtml = `
+    <div class="price-result-label" style="grid-column:1/-1">
+      ${hasExact
+        ? `✅ ພົບໄອດີງົບ ${Number(target).toLocaleString()} ກຣີບ (${near.length} ລາຍການ)`
+        : `🔎 ໄອດີງົບທີ່ໃກ້ຄຽງ ${Number(target).toLocaleString()} ກຣີບ (${near.length} ລາຍການ)`}
+    </div>`;
+
+  g.innerHTML = labelHtml + near.map((p)=>{
+    const imgSrc = p.imgs && p.imgs[0] ? p.imgs[0] : '';
+    const isSold = p.status==='sold';
+    const rank = (p.extras||[]).find(e=>e.k==='Rank'||e.k==='rank');
+    const skin = (p.extras||[]).find(e=>e.k==='Skin'||e.k==='ຈຳນວນ Skin'||e.k==='skins');
+    const hero = (p.extras||[]).find(e=>e.k==='Hero'||e.k==='ຈຳນວນ Hero'||e.k==='heroes');
+    const pidx = products.indexOf(p);
+    return `
+    <a class="card" href="#" onclick="openDetail(${pidx});return false">
+      <div class="card-img-wrap">
+        <div class="card-img">
+          ${imgSrc ? `<img src="${imgSrc}" alt="${p.title}" loading="lazy" onerror="this.style.display='none'"/>` : GAMESVG}
+          <div class="stag ${p.status}">${isSold?'ປິດແລ້ວ':'✓ ພ້ອມເສີບ'}</div>
+          ${p.isNew?`<div class="badge-new">NEW</div>`:''}
+          <div class="card-stats">
+            ${hero?`<div class="cs">👤 ${hero.v}</div>`:''}
+            ${skin?`<div class="cs">✨ ${skin.v}</div>`:''}
+            ${rank?`<div class="cs">${rankIcon(rank.v.split(' ')[0])} ${rank.v}</div>`:''}
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-id">${p.title}</div>
+        <div class="card-game"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="6"/><path d="M6 12h4M8 10v4"/><circle cx="16" cy="11" r="1" fill="currentColor" stroke="none"/></svg> ${p.game}</div>
+        <div><span class="card-price">${fmt(p.price)}</span><span style="font-size:.68rem;color:var(--orl);margin-left:3px">ກຣີບ ✅</span></div>
+        <div class="${isSold?'card-btn sold-btn':'card-btn'}">${isSold?'ປິດແລ້ວ':'ເບິ່ງລາຍລະອຽດ'}</div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+function clearCatPriceSearch(){
+  document.getElementById('catPriceSearchInput').value = '';
+  document.getElementById('catPriceSearchClear').classList.remove('show');
+  renderCatGrid();
+}
+
+
 function catSortBy(el, mode){
   document.querySelectorAll('.cat-sc').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
@@ -949,6 +1199,11 @@ function closeCatPage(){
   document.body.style.overflow = '';
   fromCatPage = false;
   currentCat = 'all';
+  // reset cat price search
+  const inp = document.getElementById('catPriceSearchInput');
+  if(inp) inp.value = '';
+  const clr = document.getElementById('catPriceSearchClear');
+  if(clr) clr.classList.remove('show');
   window.scrollTo(0,0);
 }
 
@@ -1029,7 +1284,7 @@ function openDetail(idx){
 
   document.getElementById('dNote').innerHTML = p.desc
     ? `<div style="font-size:.75rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">ລາຍລະອຽດ</div>
-       <div style="font-size:.88rem;color:#444;line-height:1.75">${p.desc.replace(/\n/g,'<br>')}</div>`
+       <div style="font-size:.88rem;color:#bbb;line-height:1.75">${p.desc.replace(/\n/g,'<br>')}</div>`
     : `<div style="font-size:.75rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">ລາຍລະອຽດ</div>
        <div style="font-size:.88rem;color:#bbb;line-height:1.75">ທັກຫາແອັດມິນເພື່ອດູເພີ່ມຕື່ມ</div>`;
 
@@ -1040,13 +1295,6 @@ function openDetail(idx){
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         ປິດແລ້ວ
       </button>`
-    : alreadyBought
-    ? `<div style="max-width:540px;margin:0 auto">
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(240,160,0,0.12);border:1.5px solid rgba(240,160,0,0.3);border-radius:14px;padding:14px 16px;font-size:.85rem;color:#F0A000;font-weight:700">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          ທ່ານໄດ້ສັ່ງຊື້ໄອດີນີ້ (${p.game}) ໄປແລ້ວ — ບໍ່ສາມາດຊື້ຊ້ຳໄດ້
-        </div>
-      </div>`
     : `<button onclick="handleBuyClick(${idx})" class="buy-btn">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.954 9.954 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.946 7.946 0 01-4.031-1.094l-.29-.172-2.952.775.787-2.873-.189-.295A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
         ສັ່ງຊື້ດຽວນີ້ເລີຍ!
@@ -1093,7 +1341,7 @@ init();
     <div style="width:52px;height:52px;background:rgba(240,160,0,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F0A000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
     </div>
-    <div style="font-family:'Noto Serif Lao',serif;font-size:1.05rem;font-weight:900;color:#1a1a1a;margin-bottom:8px">ຊື້ຊ້ຳ!</div>
+    <div style="font-family:'Noto Sans Lao',sans-serif;font-size:1.05rem;font-weight:900;color:#1a1a1a;margin-bottom:8px">ຊື້ຊ້ຳ!</div>
     <div style="font-size:.83rem;color:#888;line-height:1.7;margin-bottom:20px">ທ່ານໄດ້ສັ່ງຊື້ໄອດີນີ້ (ເກມດຽວກັນ) ໄປແລ້ວ<br>ທ່ານໝັ້ນໃຈທີ່ຈະຊື້ຊ້ຳ ຫຼືບໍ່?</div>
     <div style="display:flex;gap:10px">
       <button onclick="closeDupOverlay()" style="flex:1;padding:11px;border-radius:10px;border:1.5px solid rgba(0,0,0,0.1);background:#f5f5f5;color:#555;font-family:'Noto Sans Lao',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer">ຍົກເລີກ</button>
@@ -1117,13 +1365,6 @@ function handleBuyClickOrig(idx){
 // override handleBuyClick after DOM ready
 window.handleBuyClick = function(idx){
   const p = products[idx];
-  _dupIdx = idx;
-  if(alreadyPurchased(p)){
-    const ov = document.getElementById('dupOverlay');
-    ov.style.opacity='1'; ov.style.pointerEvents='all';
-    return;
-  }
-  markPurchased(p);
   window.open(`https://wa.me/${WA}?text=${waMsg(p)}`, '_blank');
 }
 function closeDupOverlay(e){
