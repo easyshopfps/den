@@ -1,0 +1,193 @@
+/* ════════════════════════════════════
+   components.css — shared UI pieces
+   ════════════════════════════════════ */
+
+/* ── LOADER ── */
+#pageLoader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #0D1B35;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 16px;
+  transition: opacity .45s ease;
+}
+#pageLoader.hide { opacity: 0; pointer-events: none; }
+.ld-ring {
+  width: 52px; height: 52px;
+  border: 5px solid rgba(255,107,26,0.15);
+  border-top-color: #FF6B1A;
+  border-radius: 50%;
+  animation: ldSpin .75s linear infinite;
+}
+.ld-text { font-size: .85rem; font-weight: 700; color: #FF6B1A; }
+@keyframes ldSpin { to { transform: rotate(360deg); } }
+
+/* ── HEADER ── */
+header {
+  background: linear-gradient(135deg, var(--ord), var(--or) 60%, var(--orl));
+  padding: 0 18px;
+  position: sticky; top: 0; z-index: 90;
+  box-shadow: 0 2px 20px rgba(232,79,0,0.35);
+}
+.nav {
+  max-width: 960px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 58px; gap: 10px;
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+.logo-icon {
+  width: 36px; height: 36px; overflow: hidden; padding: 0;
+  background: rgba(255,255,255,0.2); border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+}
+.logo-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; display: block; }
+.logo-wrap { display: flex; flex-direction: column; line-height: 1.2; }
+.logo-main { font-weight: 900; font-size: .95rem; color: #fff; }
+.logo-sub  { font-size: .62rem; color: rgba(255,255,255,0.8); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.wa-btn {
+  display: flex; align-items: center; gap: 7px;
+  background: #fff; color: var(--ord);
+  border: none; border-radius: 30px; padding: 8px 18px;
+  font-size: .82rem; font-weight: 700;
+  cursor: pointer; text-decoration: none; flex-shrink: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15); transition: transform .18s;
+}
+.wa-btn:hover { transform: translateY(-2px); }
+
+/* ── BANNER ── */
+.banner-wrap { width: 100%; padding: 14px 16px 0; }
+.banner-inner { border-radius: 16px; overflow: hidden; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.18); }
+.banner-track { display: flex; transition: transform .5s cubic-bezier(.25,.46,.45,.94); will-change: transform; }
+.banner-slide { min-width: 100%; position: relative; overflow: hidden; }
+.banner-slide img { width: 100%; height: auto; display: block; object-fit: contain; }
+.banner-dots { display: flex; justify-content: center; gap: 5px; position: absolute; bottom: 8px; left: 0; right: 0; z-index: 4; }
+.bdot { width: 18px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.4); cursor: pointer; transition: all .2s; }
+.bdot.active { background: #FF6B1A; width: 28px; }
+.banner-arr {
+  position: absolute; top: 50%; transform: translateY(-60%);
+  background: rgba(0,0,0,0.3); border: none; color: #fff;
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 5; font-size: .95rem; backdrop-filter: blur(4px);
+}
+.banner-arr.prev { left: 22px; }
+.banner-arr.next { right: 22px; }
+
+/* ── ANNOUNCEMENT ── */
+.announce-bar {
+  margin: 10px 16px 0;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50px; padding: 7px 14px;
+  display: flex; align-items: center; gap: 8px; overflow: hidden;
+}
+.ann-tag {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--or); color: #fff; border-radius: 50px;
+  padding: 3px 10px; font-size: .65rem; font-weight: 700;
+  white-space: nowrap; flex-shrink: 0;
+}
+.ann-scroll { overflow: hidden; flex: 1; }
+.ann-text { white-space: nowrap; font-size: .82rem; font-weight: 700; color: #fff; }
+@keyframes marquee {
+  0%   { transform: translateX(var(--ann-start, 100%)); }
+  100% { transform: translateX(var(--ann-end, -100%)); }
+}
+
+/* ── SORT CHIPS ── */
+.sort-section { margin: 22px 0 18px; }
+.sort-card {
+  background: #fff; border-radius: 16px; padding: 14px 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.06);
+}
+body:not(.light-mode) .sort-card {
+  background: #162444; border-color: rgba(255,255,255,0.07);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+.sort-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: .8rem; font-weight: 700; color: #888; margin-bottom: 12px;
+}
+body:not(.light-mode) .sort-label { color: rgba(255,255,255,0.5); }
+.sort-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.sc {
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  padding: 9px 12px; border-radius: 50px;
+  background: rgba(255,107,26,0.07); border: 1.5px solid rgba(255,107,26,0.18);
+  color: var(--or); font-size: .78rem; font-weight: 700;
+  cursor: pointer; white-space: nowrap; transition: all .18s;
+}
+.sc.active, .sc:hover {
+  background: var(--or); border-color: var(--or); color: #fff;
+  box-shadow: 0 3px 12px rgba(255,107,26,0.3);
+}
+.sec-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.sec-title { font-size: 1rem; font-weight: 900; color: var(--orl); display: flex; align-items: center; gap: 8px; }
+.cnt {
+  background: rgba(255,107,26,0.15); color: var(--or);
+  font-size: .72rem; font-weight: 700; padding: 2px 10px; border-radius: 20px;
+}
+
+/* ── PRICE SEARCH ── */
+.price-search-wrap { margin: 0 0 14px; }
+.price-search-inner {
+  background: #fff; border-radius: 14px; padding: 12px 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.06);
+}
+body:not(.light-mode) .price-search-inner {
+  background: #162444; border-color: rgba(255,255,255,0.07);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+.price-search-row { display: flex; gap: 8px; align-items: center; width: 100%; }
+.price-search-input-wrap {
+  flex: 1; min-width: 0; display: flex; align-items: center;
+  background: rgba(255,107,26,0.06); border: 1.5px solid rgba(255,107,26,0.18);
+  border-radius: 10px; transition: border-color .18s; overflow: hidden;
+}
+.price-search-input-wrap:focus-within { border-color: var(--or); }
+.price-search-icon { flex-shrink: 0; margin-left: 12px; color: rgba(255,107,26,0.5); pointer-events: none; }
+.price-search-input {
+  flex: 1; min-width: 0; background: transparent; border: none;
+  padding: 9px 13px; font-size: .82rem; font-weight: 700;
+  color: var(--or); outline: none;
+}
+.price-search-input::placeholder { color: rgba(255,107,26,0.35); font-weight: 400; font-size: .78rem; }
+.price-search-btn {
+  flex-shrink: 0; padding: 9px 16px; border-radius: 10px; border: none; cursor: pointer;
+  background: linear-gradient(135deg, var(--or), var(--ord));
+  color: #fff; font-size: .8rem; font-weight: 700; white-space: nowrap; transition: transform .15s;
+}
+.price-search-btn:hover { transform: translateY(-1px); }
+.price-search-clear {
+  flex-shrink: 0; width: 30px; height: 30px; margin-right: 4px;
+  border-radius: 8px; border: none;
+  background: rgba(255,107,26,0.12); color: var(--or);
+  cursor: pointer; font-size: .8rem; font-weight: 700; transition: all .15s;
+  display: none; align-items: center; justify-content: center;
+}
+.price-search-clear.show { display: flex; }
+.price-result-label {
+  font-size: .88rem; font-weight: 900; color: var(--orl);
+  display: flex; align-items: center; gap: 6px; margin: 14px 0 10px;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg2); border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 36px 18px 28px; text-align: center;
+  font-size: .82rem; color: var(--muted);
+}
+.foot-copy { margin-top: 18px; font-size: .68rem; opacity: .3; }
+
+/* ── SPINNER ── */
+.loading-wrap { grid-column: 1/-1; text-align: center; padding: 60px 20px; }
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(255,107,26,0.2); border-top-color: var(--or);
+  border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── WRAP ── */
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 500px) { .hero-stats { gap: 20px; } }
