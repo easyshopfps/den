@@ -1,0 +1,27 @@
+/* ════════════════════════════════
+   category.css — Category page
+   ════════════════════════════════ */
+
+#catPage {
+  position: fixed; inset: 0; z-index: 150;
+  background: var(--bg); overflow-y: auto;
+  visibility: hidden; pointer-events: none;
+  opacity: 0; transform: translateX(40px);
+  transition: opacity .28s ease, transform .28s ease, visibility 0s linear .28s;
+}
+#catPage.show {
+  visibility: visible; pointer-events: auto;
+  opacity: 1; transform: translateX(0);
+  transition: opacity .28s ease, transform .28s ease, visibility 0s linear 0s;
+}
+
+.cat-page-back {
+  display: flex; align-items: center; gap: 8px; padding: 14px 18px;
+  background: linear-gradient(135deg, var(--ord), var(--or) 60%, var(--orl));
+  cursor: pointer; font-size: .9rem; font-weight: 700; color: #fff;
+  position: sticky; top: 0; z-index: 50; transition: opacity .15s;
+}
+.cat-page-back:active { opacity: .75; }
+
+.cat-sort-section { margin: 16px 0 12px; }
+.cat-sort-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
