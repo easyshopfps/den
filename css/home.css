@@ -80,12 +80,7 @@
 }
 .card.slide-in:nth-child(even) { animation-delay: .09s; }
 
-/* ออกจาก viewport → reset */
-.card.slide-out {
-  opacity: 0 !important;
-  transform: translateX(-44px) !important;
-  animation: none !important;
-}
+/* ไม่มี slide-out — เลื่อนขึ้นไม่ต้องซ่อน */
 
 /* ── PRODUCT CARD ── */
 .card {
