@@ -68,11 +68,10 @@
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* เริ่มต้น hidden */
+/* เริ่มต้น hidden — รอ observer */
 .card {
   opacity: 0;
   transform: translateX(-44px);
-  transition: none;
 }
 
 /* เข้า viewport → animate */
@@ -81,12 +80,11 @@
 }
 .card.slide-in:nth-child(even) { animation-delay: .09s; }
 
-/* ออกจาก viewport → reset กลับ hidden ทันที */
+/* ออกจาก viewport → reset */
 .card.slide-out {
-  opacity: 0;
-  transform: translateX(-44px);
-  animation: none;
-  transition: none;
+  opacity: 0 !important;
+  transform: translateX(-44px) !important;
+  animation: none !important;
 }
 
 /* ── PRODUCT CARD ── */
