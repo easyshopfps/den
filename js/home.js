@@ -95,11 +95,17 @@ function reObserveGrid() {
 }
 
 /* ── Grid ── */
+function _setLoader(show) {
+  const loader = document.querySelector('#gridWrap .loading-wrap');
+  if (loader) loader.style.display = show ? 'flex' : 'none';
+}
+
 function renderGrid(list) {
   displayList = list;
   const g = document.getElementById('grid');
+  _setLoader(false);
   if (!list.length) {
-    g.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.25)">ບໍ່ມີລາຍການ</div>`;
+    g.innerHTML = `<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.25)">ບໍ່ມີລາຍການ</div>`;
     return;
   }
   g.innerHTML = list.map(p => cardHTML(p, products.indexOf(p))).join('');

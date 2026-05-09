@@ -31,13 +31,11 @@ function _openCatPage(game) {
   if (inp) inp.value = '';
   if (clr) clr.classList.remove('show');
 
-  /* แสดง dot loader ก่อน แล้วค่อย render จริง */
+  /* แสดง dot loader */
+  const catLoader = document.getElementById('catLoader');
   const g = document.getElementById('catGrid');
-  g.innerHTML = `<div class="loading-wrap" style="grid-column:1/-1">
-    <div class="dot-loader">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-  </div>`;
+  if (catLoader) catLoader.style.display = 'flex';
+  g.innerHTML = '';
 
   /* render ใน next frame ให้ UI ไม่กระตุก */
   requestAnimationFrame(() => {
@@ -50,15 +48,16 @@ function _openCatPage(game) {
 
 /* ── Grid ── */
 function renderCatGrid() {
+  const catLoader = document.getElementById('catLoader');
+  if (catLoader) catLoader.style.display = 'none';
   let list = products.filter(p => p.game === currentCat);
   _sortList(list, catCurrentSort);
   const g = document.getElementById('catGrid');
   if (!list.length) {
-    g.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.35)">ບໍ່ມີໄອດີໃນຂະນະນີ້</div>`;
+    g.innerHTML = `<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.35)">ບໍ່ມີໄອດີໃນຂະນະນີ້</div>`;
     return;
   }
   g.innerHTML = list.map(p => cardHTML(p, products.indexOf(p))).join('');
-  // ใช้ observer เดิมจาก home.js
   _initObserver();
   g.querySelectorAll('.card').forEach(card => _observer.observe(card));
 }
