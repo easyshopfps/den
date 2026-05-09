@@ -64,14 +64,30 @@
 
 /* ── SLIDE-IN ANIMATION ── */
 @keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-40px); }
+  from { opacity: 0; transform: translateX(-44px); }
   to   { opacity: 1; transform: translateX(0); }
 }
-.card { opacity: 0; }
-.card.slide-in {
-  animation: slideInLeft .4s cubic-bezier(.25,.46,.45,.94) both;
+
+/* เริ่มต้น hidden */
+.card {
+  opacity: 0;
+  transform: translateX(-44px);
+  transition: none;
 }
-.card.slide-in:nth-child(even) { animation-delay: .08s; }
+
+/* เข้า viewport → animate */
+.card.slide-in {
+  animation: slideInLeft .42s cubic-bezier(.25,.46,.45,.94) both;
+}
+.card.slide-in:nth-child(even) { animation-delay: .09s; }
+
+/* ออกจาก viewport → reset กลับ hidden ทันที */
+.card.slide-out {
+  opacity: 0;
+  transform: translateX(-44px);
+  animation: none;
+  transition: none;
+}
 
 /* ── PRODUCT CARD ── */
 .card {
