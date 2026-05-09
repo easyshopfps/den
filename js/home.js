@@ -67,7 +67,7 @@ function cardHTML(p, globalIdx) {
   </a>`;
 }
 
-/* ── Intersection Observer for slide-in (reset on scroll up) ── */
+/* ── Intersection Observer for slide-in ── */
 let _observer = null;
 
 function _initObserver() {
@@ -75,16 +75,17 @@ function _initObserver() {
   _observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // เข้า viewport → แสดง animation
-        entry.target.classList.add('slide-in');
         entry.target.classList.remove('slide-out');
+        entry.target.classList.add('slide-in');
       } else {
-        // ออกจาก viewport → reset ให้พร้อม animate ใหม่
-        entry.target.classList.remove('slide-in');
-        entry.target.classList.add('slide-out');
+        // ออกจาก viewport → reset เฉพาะที่เคย animate แล้ว
+        if (entry.target.classList.contains('slide-in')) {
+          entry.target.classList.remove('slide-in');
+          entry.target.classList.add('slide-out');
+        }
       }
     });
-  }, { threshold: 0.08 });
+  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
 }
 
 /* ── Grid ── */
