@@ -67,17 +67,32 @@ function cardHTML(p, globalIdx) {
   </a>`;
 }
 
+/* ── Intersection Observer for slide-in ── */
+let _observer = null;
+
+function _initObserver() {
+  if (_observer) _observer.disconnect();
+  _observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('slide-in');
+        _observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+}
+
 /* ── Grid ── */
 function renderGrid(list) {
   displayList = list;
-  const badge = document.getElementById('countBadge');
-  if (badge) badge.textContent = list.length;
   const g = document.getElementById('grid');
   if (!list.length) {
     g.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.25)">ບໍ່ມີລາຍການ</div>`;
     return;
   }
   g.innerHTML = list.map(p => cardHTML(p, products.indexOf(p))).join('');
+  _initObserver();
+  g.querySelectorAll('.card').forEach(card => _observer.observe(card));
 }
 
 /* ── Sort ── */
