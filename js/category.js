@@ -43,6 +43,9 @@ function renderCatGrid() {
     return;
   }
   g.innerHTML = list.map(p => cardHTML(p, products.indexOf(p))).join('');
+  // ใช้ observer เดิมจาก home.js
+  _initObserver();
+  g.querySelectorAll('.card').forEach(card => _observer.observe(card));
 }
 
 /* ── Sort ── */
