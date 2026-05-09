@@ -77,6 +77,8 @@ function _showHomeNoHistory() {
   document.getElementById('homePage').style.visibility = '';
   document.body.style.overflow = '';
   window.scrollTo(0, 0);
+  // Re-observe cards ให้ animation ทำงานอีกครั้ง
+  if (typeof reObserveGrid === 'function') reObserveGrid();
 }
 
 /* Handle deep-link on first load */
