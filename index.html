@@ -196,12 +196,13 @@
     </div>
 
     <!-- Product grid (filled by JS) -->
-    <div class="grid" id="grid">
-      <div class="loading-wrap" style="grid-column:1/-1">
+    <div id="gridWrap" style="padding-bottom:60px">
+      <div class="loading-wrap">
         <div class="dot-loader">
           <span></span><span></span><span></span><span></span><span></span>
         </div>
       </div>
+      <div class="grid" id="grid"></div>
     </div>
   </div>
 
@@ -317,12 +318,13 @@
       </div>
     </div>
     <!-- Cat product grid (filled by category.js) -->
-    <div class="grid" id="catGrid">
-      <div class="loading-wrap" style="grid-column:1/-1">
+    <div id="catGridWrap">
+      <div class="loading-wrap" id="catLoader">
         <div class="dot-loader">
           <span></span><span></span><span></span><span></span><span></span>
         </div>
       </div>
+      <div class="grid" id="catGrid"></div>
     </div>
   </div>
 </div><!-- end #catPage -->
