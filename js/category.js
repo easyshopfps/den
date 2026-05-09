@@ -10,6 +10,16 @@ function _openCatPage(game) {
   currentCat     = game;
   catCurrentSort = 'newest';
 
+  /* แสดงหน้าก่อนเลย ไม่ต้องรอ render */
+  document.getElementById('catPage').classList.add('show');
+  document.getElementById('detailPage').classList.remove('show');
+  document.getElementById('homePage').style.visibility = 'hidden';
+  document.body.style.overflow = 'hidden';
+  window.scrollTo(0, 0);
+
+  /* Set page title */
+  document.getElementById('catPageTitle').textContent = game;
+
   /* Reset sort chips */
   document.querySelectorAll('.cat-sc').forEach(c => c.classList.remove('active'));
   const first = document.querySelector('.cat-sc');
@@ -21,17 +31,22 @@ function _openCatPage(game) {
   if (inp) inp.value = '';
   if (clr) clr.classList.remove('show');
 
-  /* Set page title */
-  document.getElementById('catPageTitle').textContent = game;
+  /* แสดง dot loader ก่อน แล้วค่อย render จริง */
+  const g = document.getElementById('catGrid');
+  g.innerHTML = `<div class="loading-wrap" style="grid-column:1/-1">
+    <div class="dot-loader">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>`;
 
-  renderCatGrid();
-
-  document.getElementById('catPage').classList.add('show');
-  document.getElementById('detailPage').classList.remove('show');
-  document.getElementById('homePage').style.visibility = 'hidden';
-  document.body.style.overflow = 'hidden';
-  window.scrollTo(0, 0);
+  /* render ใน next frame ให้ UI ไม่กระตุก */
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      renderCatGrid();
+    });
+  });
 }
+
 
 /* ── Grid ── */
 function renderCatGrid() {
