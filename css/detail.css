@@ -2,7 +2,7 @@
    detail.css — Product detail page
    ════════════════════════════════ */
 
-/* Layer 0: fixed overlay container */
+/* Layer 0: พื้นหลังทั้งหน้า สีเข้ม — เห็นรอบ card */
 #detailPage {
   position: fixed; inset: 0; z-index: 200;
   background: var(--bg);
@@ -10,6 +10,8 @@
   visibility: hidden; pointer-events: none;
   opacity: 0; transform: translateX(30px);
   transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s;
+  padding: 60px 14px 30px;
+  box-sizing: border-box;
 }
 #detailPage.show {
   visibility: visible; pointer-events: auto;
@@ -18,30 +20,17 @@
 }
 #homePage { transition: opacity .2s ease; }
 
-/* ── Layer 1 (หลังสุด): blurred bg image ── */
-.detail-bg-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background-size: cover;
-  background-position: center;
-  filter: blur(28px) brightness(0.35) saturate(1.4);
-  transform: scale(1.08);
-  pointer-events: none;
+/* ── Layer 1: card กรอบโค้งครอบทุกอย่าง ── */
+.detail-outer-card {
+  background: var(--bg2);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  margin-bottom: 20px;
 }
 
-/* ── Layer 2 (outer card): กรอบใหญ่โค้งลอยขึ้น ── */
-.detail-outer-card {
-  position: relative;
-  z-index: 1;
-  background: var(--bg2);
-  border-radius: 24px 24px 0 0;
-  margin-top: 56px;            /* เว้นด้านบนให้เห็น bg layer นิดหน่อย */
-  min-height: calc(100vh - 56px);
-  padding-bottom: 0;
-  box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
-  overflow: hidden;
-}
+/* ลบ bg-layer ที่ไม่ใช้แล้ว */
+.detail-bg-layer { display: none; }
 
 /* Image fade */
 #dMainImg img { transition: opacity .22s ease; }
@@ -110,13 +99,10 @@
 .share-btn.fb   { background: #1877F2; }
 .share-btn.copy { background: rgba(255,255,255,0.12); }
 
-/* ── Layer 3 (inner): detail card เนื้อหา ── */
+/* ── เนื้อหา detail ── */
 .detail-card {
-  background: var(--bg2);
-  border-radius: 0;
-  margin-top: 0;
-  min-height: 40vh;
-  padding: 20px 18px 100px;
+  background: transparent;
+  padding: 20px 18px 0;
 }
 
 .detail-id-badge { display: none; }
@@ -162,11 +148,10 @@
 .drow .dk { color: rgba(255,255,255,0.45); }
 .drow .dv { font-weight: 700; color: #fff; }
 
+/* ── Footer ปุ่มซื้อ — อยู่ติดขอบล่าง card ── */
 .detail-footer {
-  position: sticky; bottom: 0; left: 0; right: 0;
   padding: 12px 18px 20px;
   background: linear-gradient(to top, var(--bg2) 80%, transparent);
-  z-index: 10;
 }
 .buy-btn {
   display: flex; align-items: center; justify-content: center; gap: 10px;
@@ -185,8 +170,7 @@
 .buy-btn.disabled:hover { transform: none; }
 
 @media (min-width: 768px) {
-  .detail-outer-card { margin-top: 80px; border-radius: 32px 32px 0 0; }
+  #detailPage { padding: 80px 24px 40px; }
   .detail-img-wrap { padding: 0 24px; }
-  .detail-card     { padding: 22px 24px 100px; }
+  .detail-card     { padding: 22px 24px 0; }
 }
-
