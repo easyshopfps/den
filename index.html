@@ -306,38 +306,42 @@
      DETAIL PAGE
 ════════════════════════════════════ -->
 <div id="detailPage">
-  <div class="detail-back" onclick="showHome()">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <polyline points="15 18 9 12 15 6"/>
-    </svg>
-    ກັບໜ້າຫຼັກ
-  </div>
-  <!-- Breadcrumb อยู่เหนือรูป บน layer 1 -->
-  <div class="detail-crumb" id="dCrumb"></div>
-  <div class="detail-img-wrap">
-    <div class="detail-main-img" id="dMainImg">
-      <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="2" y="6" width="20" height="12" rx="6"/>
-        <path d="M6 12h4M8 10v4"/>
-        <circle cx="16" cy="11" r="1.5" fill="rgba(255,255,255,0.08)" stroke="none"/>
-        <circle cx="18" cy="13" r="1.5" fill="rgba(255,255,255,0.08)" stroke="none"/>
-      </svg>
+  <!-- Layer 1: พื้นหลัง — รูปใหญ่ blurred อยู่ข้างหลัง -->
+  <div class="detail-bg-layer" id="dBgLayer"></div>
+
+  <!-- Layer 2: card โค้งลอยขึ้นมาครอบทุกอย่าง -->
+  <div class="detail-outer-card">
+    <!-- Breadcrumb + ปุ่มกลับอยู่บนสุดของ card -->
+    <div class="detail-crumb" id="dCrumb"></div>
+
+    <!-- รูปภาพ -->
+    <div class="detail-img-wrap">
+      <div class="detail-main-img" id="dMainImg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="6" width="20" height="12" rx="6"/>
+          <path d="M6 12h4M8 10v4"/>
+          <circle cx="16" cy="11" r="1.5" fill="rgba(255,255,255,0.08)" stroke="none"/>
+          <circle cx="18" cy="13" r="1.5" fill="rgba(255,255,255,0.08)" stroke="none"/>
+        </svg>
+      </div>
     </div>
-  </div>
-  <div class="thumb-strip" id="dThumbStrip"></div>
-  <div id="dShareStrip"></div>
-  <!-- Layer 2: card เข้มโค้งขึ้นมา -->
-  <div class="detail-card">
-    <div class="detail-id-badge" id="dIdBadge"></div>
-    <div class="detail-title"   id="dTitle"></div>
-    <div class="detail-meta"    id="dMeta"></div>
-    <div id="dStatusRow"></div>
-    <div class="detail-price-box" id="dPriceBox"></div>
-    <div id="dNote" style="margin-bottom:18px;font-size:.85rem;color:rgba(255,255,255,0.5);line-height:1.7"></div>
-  </div><!-- end .detail-card -->
-  <div class="detail-footer">
-    <div id="dBuyBtn"></div>
-  </div>
+    <div class="thumb-strip" id="dThumbStrip"></div>
+    <div id="dShareStrip"></div>
+
+    <!-- detail card เนื้อหา -->
+    <div class="detail-card">
+      <div class="detail-id-badge" id="dIdBadge"></div>
+      <div class="detail-title"   id="dTitle"></div>
+      <div class="detail-meta"    id="dMeta"></div>
+      <div id="dStatusRow"></div>
+      <div class="detail-price-box" id="dPriceBox"></div>
+      <div id="dNote" style="margin-bottom:18px;font-size:.85rem;color:rgba(255,255,255,0.5);line-height:1.7"></div>
+    </div><!-- end .detail-card -->
+
+    <div class="detail-footer">
+      <div id="dBuyBtn"></div>
+    </div>
+  </div><!-- end .detail-outer-card -->
 </div><!-- end #detailPage -->
 
 <!-- ══════════════════════════════════
