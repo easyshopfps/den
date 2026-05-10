@@ -107,10 +107,13 @@ function _openDetail(idx) {
        </div>`
     : '';
 
-  document.getElementById('dNote').innerHTML = extrasHtml + (p.desc
-    ? `<div style="font-size:.75rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">ໝາຍເຫດ</div>
+  const descHtml = p.desc
+    ? `<div class="detail-section-title">ລາຍລະອຽດ</div>
        <div style="font-size:.88rem;color:#bbb;line-height:1.75">${p.desc.replace(/\n/g,'<br>')}</div>`
-    : `<div style="font-size:.88rem;color:#bbb;line-height:1.75">ທັກຫາແອັດມິນເພື່ອດູເພີ່ມຕື່ມ</div>`);
+    : `<div class="detail-section-title">ລາຍລະອຽດ</div>
+       <div style="font-size:.88rem;color:#bbb;line-height:1.75">ທັກຫາແອັດມິນເພື່ອດູເພີ່ມຕື່ມ</div>`;
+
+  document.getElementById('dNote').innerHTML = extrasHtml + descHtml;
 
   /* ── Buy button ── */
   document.getElementById('dBuyBtn').innerHTML = isSold
