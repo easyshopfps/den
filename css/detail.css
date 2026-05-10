@@ -174,3 +174,81 @@
   .detail-img-wrap { padding: 0 24px; }
   .detail-card     { padding: 22px 24px 0; }
 }
+
+/* ══════════════════════════════════
+   Detail Header — แถบส้มด้านบน
+══════════════════════════════════ */
+.detail-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 300;
+  background: linear-gradient(135deg, #E84F00, #FF7A2F);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  height: 58px;
+  box-shadow: 0 2px 12px rgba(232,79,0,0.4);
+}
+
+.detail-header-back {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  border-radius: 50%;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.detail-header-back:hover { background: rgba(255,255,255,0.35); }
+
+.detail-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex: 1;
+}
+.detail-header-logo img {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.4);
+}
+.detail-header-logo div {
+  display: flex; flex-direction: column;
+}
+.detail-header-name {
+  font-size: .88rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.2;
+}
+.detail-header-sub {
+  font-size: .65rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: .05em;
+}
+
+.detail-header-contact {
+  background: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 7px 14px;
+  display: flex; align-items: center; gap: 6px;
+  color: #E84F00;
+  font-size: .78rem;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity .15s;
+}
+.detail-header-contact:hover { opacity: .85; }
+
+/* ปรับ detailPage padding ให้เว้นที่ header */
+#detailPage {
+  padding-top: 74px !important;
+}
