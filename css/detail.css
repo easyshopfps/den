@@ -2,7 +2,7 @@
    detail.css — Product detail page
    ════════════════════════════════ */
 
-/* Layer 1 (หลังสุด) = #0D1B35 พื้นหลังทั้งหน้า */
+/* Layer 0: fixed overlay container */
 #detailPage {
   position: fixed; inset: 0; z-index: 200;
   background: var(--bg);
@@ -18,25 +18,40 @@
 }
 #homePage { transition: opacity .2s ease; }
 
+/* ── Layer 1 (หลังสุด): blurred bg image ── */
+.detail-bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(28px) brightness(0.35) saturate(1.4);
+  transform: scale(1.08);
+  pointer-events: none;
+}
+
+/* ── Layer 2 (outer card): กรอบใหญ่โค้งลอยขึ้น ── */
+.detail-outer-card {
+  position: relative;
+  z-index: 1;
+  background: var(--bg2);
+  border-radius: 24px 24px 0 0;
+  margin-top: 56px;            /* เว้นด้านบนให้เห็น bg layer นิดหน่อย */
+  min-height: calc(100vh - 56px);
+  padding-bottom: 0;
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+  overflow: hidden;
+}
+
 /* Image fade */
 #dMainImg img { transition: opacity .22s ease; }
 #dMainImg img.fading { opacity: 0; }
 
-/* ── Back bar ── */
-.detail-back {
-  display: flex; align-items: center; gap: 8px; padding: 14px 18px 6px;
-  background: transparent;
-  cursor: pointer; font-size: .85rem; font-weight: 700;
-  color: rgba(255,255,255,0.85);
-  position: sticky; top: 0; z-index: 50;
-}
-.detail-back:hover { color: #fff; }
-
-/* ── Breadcrumb — อยู่ใต้ปุ่มกลับ เหนือรูป ── */
+/* ── Breadcrumb — อยู่บนสุดของ card ── */
 .detail-crumb {
   font-size: .72rem; color: rgba(255,255,255,0.4);
   display: flex; align-items: center; gap: 5px;
-  padding: 0 18px 10px; flex-wrap: wrap;
+  padding: 16px 18px 10px; flex-wrap: wrap;
 }
 .detail-crumb a {
   color: rgba(255,255,255,0.4); text-decoration: none;
@@ -95,14 +110,13 @@
 .share-btn.fb   { background: #1877F2; }
 .share-btn.copy { background: rgba(255,255,255,0.12); }
 
-/* ── Layer 2: card เข้มโค้งขึ้นมา ── */
+/* ── Layer 3 (inner): detail card เนื้อหา ── */
 .detail-card {
   background: var(--bg2);
-  border-radius: 24px 24px 0 0;
-  margin-top: 8px;
-  min-height: 60vh;
+  border-radius: 0;
+  margin-top: 0;
+  min-height: 40vh;
   padding: 20px 18px 100px;
-  box-shadow: 0 -6px 30px rgba(0,0,0,0.35);
 }
 
 .detail-id-badge { display: none; }
@@ -171,6 +185,8 @@
 .buy-btn.disabled:hover { transform: none; }
 
 @media (min-width: 768px) {
+  .detail-outer-card { margin-top: 80px; border-radius: 32px 32px 0 0; }
   .detail-img-wrap { padding: 0 24px; }
   .detail-card     { padding: 22px 24px 100px; }
 }
+
