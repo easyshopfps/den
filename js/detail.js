@@ -12,6 +12,12 @@ function _openDetail(idx) {
   const isSold = p.status === 'sold';
   const imgs   = (p.imgs && p.imgs.length) ? p.imgs : [];
 
+  /* ── BG blur layer (Layer 1) ── */
+  const bgLayer = document.getElementById('dBgLayer');
+  if (bgLayer && imgs[0]) {
+    bgLayer.style.backgroundImage = `url('${imgs[0]}')`;
+  }
+
   /* ── Main image ── */
   const mainImg  = document.getElementById('dMainImg');
   const existImg = mainImg.querySelector('img');
