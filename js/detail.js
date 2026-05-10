@@ -35,65 +35,61 @@ function _openDetail(idx) {
   ).join('');
 
   /* ── Share strip ── */
-  const pageUrl = encodeURIComponent(window.location.href);
-  const shareTitle = encodeURIComponent(p.title + ' - ' + fmt(p.price) + ' ກຣີບ');
+  const rawUrl = window.location.href;
+  const pageUrl = encodeURIComponent(rawUrl);
+  const shareText = encodeURIComponent(p.title + ' - ' + fmt(p.price) + ' ກຣີບ');
   document.getElementById('dShareStrip').innerHTML = `
-    <div style="display:flex;gap:14px;align-items:flex-start;padding:12px 16px 4px">
+    <div class="share-row">
+      <span class="share-row-label">ແຊຣ໌ :</span>
       <!-- WhatsApp -->
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-        <button class="share-btn wa" onclick="window.open('https://wa.me/?text=${shareTitle}%20${pageUrl}','_blank')" title="WhatsApp">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-            <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.954 9.954 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.946 7.946 0 01-4.031-1.094l-.29-.172-2.952.775.787-2.873-.189-.295A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/>
-          </svg>
-        </button>
-        <span class="share-label">WhatsApp</span>
-      </div>
-      <!-- Messenger -->
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-        <button class="share-btn msg" onclick="window.open('https://www.facebook.com/dialog/send?link=${pageUrl}&app_id=291494419107518&redirect_uri=${pageUrl}','_blank')" title="Messenger">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-            <path d="M12 2C6.477 2 2 6.145 2 11.243c0 3.048 1.524 5.762 3.908 7.522V22l3.562-1.966c.95.264 1.958.408 3 .408C17.523 20.442 22 16.34 22 11.243 22 6.145 17.523 2 12 2zm1.193 12.244l-2.55-2.718-4.98 2.718 5.481-5.82 2.614 2.719 4.913-2.719-5.478 5.82z"/>
-          </svg>
-        </button>
-        <span class="share-label">Messenger</span>
-      </div>
+      <button class="share-btn wa" onclick="window.open('https://wa.me/?text=${shareText}%20${pageUrl}','_blank')" title="WhatsApp">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="white">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.954 9.954 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.946 7.946 0 01-4.031-1.094l-.29-.172-2.952.775.787-2.873-.189-.295A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/>
+        </svg>
+      </button>
+      <!-- Messenger — ใช้ Native Share API ถ้าได้ ไม่งั้น fallback fb.me -->
+      <button class="share-btn msg" onclick="
+        if(navigator.share){
+          navigator.share({title:'${p.title}',text:'${p.title} - ${fmt(p.price)} ກຣີບ',url:'${rawUrl}'});
+        } else {
+          window.open('https://www.facebook.com/dialog/send?link=${pageUrl}&app_id=966242223397117&redirect_uri=${pageUrl}','_blank');
+        }" title="Messenger">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="white">
+          <path d="M12 2C6.477 2 2 6.145 2 11.243c0 3.048 1.524 5.762 3.908 7.522V22l3.562-1.966c.95.264 1.958.408 3 .408C17.523 20.442 22 16.34 22 11.243 22 6.145 17.523 2 12 2zm1.193 12.244l-2.55-2.718-4.98 2.718 5.481-5.82 2.614 2.719 4.913-2.719-5.478 5.82z"/>
+        </svg>
+      </button>
       <!-- Facebook -->
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-        <button class="share-btn fb" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${pageUrl}','_blank')" title="Facebook">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
-        </button>
-        <span class="share-label">Facebook</span>
-      </div>
+      <button class="share-btn fb" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${pageUrl}','_blank')" title="Facebook">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="white">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </button>
       <!-- Copy link -->
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-        <button class="share-btn copy" onclick="
-          navigator.clipboard.writeText(window.location.href).then(()=>{
-            this.innerHTML='<svg width=22 height=22 viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'#16A34A\\' stroke-width=\\'2.5\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\'><polyline points=\\'20 6 9 17 4 12\\'/></svg>';
-            setTimeout(()=>{this.innerHTML='<svg width=22 height=22 viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'#555\\' stroke-width=\\'2\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\'><rect x=\\'9\\' y=\\'9\\' width=\\'13\\' height=\\'13\\' rx=\\'2\\'/><path d=\\'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1\\'/></svg>'},1500)
-          })" title="ຄັດລອກລິ້ງ">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="9" y="9" width="13" height="13" rx="2"/>
-            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-          </svg>
-        </button>
-        <span class="share-label">ຄັດລອກ</span>
-      </div>
+      <button class="share-btn copy" id="dCopyBtn" onclick="
+        navigator.clipboard.writeText('${rawUrl}').then(()=>{
+          const b=document.getElementById('dCopyBtn');
+          b.innerHTML='<svg width=20 height=20 viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'#16A34A\\' stroke-width=\\'2.5\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\'><polyline points=\\'20 6 9 17 4 12\\'/></svg>';
+          setTimeout(()=>{b.innerHTML='<svg width=20 height=20 viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'rgba(255,255,255,0.8)\\' stroke-width=\\'2\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\'><rect x=\\'9\\' y=\\'9\\' width=\\'13\\' height=\\'13\\' rx=\\'2\\'/><path d=\\'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1\\'/></svg>'},1800)
+        })" title="ຄັດລອກລິ້ງ">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/>
+          <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
+      </button>
     </div>`;
 
-  /* ── Breadcrumb ── */
+  /* ── Breadcrumb — กดได้ ── */
   document.getElementById('dCrumb').innerHTML = `
     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2.5"
          stroke-linecap="round" stroke-linejoin="round">
       <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
       <polyline points="9 22 9 12 15 12 15 22"/>
     </svg>
-    ໜ້າຫຼັກ
+    <a href="." onclick="showHome();return false">ໜ້າຫຼັກ</a>
     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2.5"
          stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-    ${p.game}
+    <a href="." onclick="showHome();openCatPage('${p.game}');return false">${p.game}</a>
     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2.5"
          stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     ${p.title}`;
