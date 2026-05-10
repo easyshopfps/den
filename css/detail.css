@@ -30,13 +30,38 @@
 
 .detail-img-wrap { padding: 16px 16px 0; background: #fff; }
 .detail-main-img {
-  width: 100%; max-height: 320px;
-  background: linear-gradient(135deg, #f0f2f5, #e8edf5);
+  width: 100%;
+  background: #f0f2f5;
   border-radius: 16px; overflow: hidden; position: relative;
   display: flex; align-items: center; justify-content: center;
 }
-.detail-main-img img { width: 100%; height: auto; max-height: 320px; object-fit: contain; display: block; }
+/* รูปแสดงตามสัดส่วนจริง ไม่ตัด ไม่ยืด กรอบโค้งมน */
+.detail-main-img img {
+  width: 100%; height: auto;
+  display: block; border-radius: 16px;
+  object-fit: contain;
+}
 .detail-main-img svg { width: 72px; height: 72px; opacity: .2; }
+
+/* ── Share buttons ── */
+.share-strip {
+  display: flex; gap: 12px; padding: 12px 16px 4px;
+  align-items: center; background: #fff;
+}
+.share-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; border: none; transition: transform .15s, opacity .15s;
+  flex-shrink: 0;
+}
+.share-btn:active { transform: scale(.92); opacity: .8; }
+.share-btn.wa       { background: #25D366; }
+.share-btn.msg      { background: linear-gradient(135deg, #0084FF, #A033FF); }
+.share-btn.fb       { background: #1877F2; }
+.share-btn.copy     { background: #f0f2f5; }
+.share-label {
+  font-size: .62rem; color: #aaa; text-align: center; margin-top: 4px;
+}
 
 .thumb-strip {
   display: flex; gap: 8px; padding: 10px 16px;
