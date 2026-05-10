@@ -203,27 +203,7 @@ function switchImg(src, el) {
 
 /* ── Detail dark theme ── */
 function applyDetailTheme(mode) {
-  const styleId = 'detail-dark-style';
-  let st = document.getElementById(styleId);
-  if (mode === 'dark') {
-    if (!st) { st = document.createElement('style'); st.id = styleId; document.head.appendChild(st); }
-    st.textContent = `
-      #detailPage{background:#0D1B35!important}
-      #detailPage .detail-back{background:#122040;border-bottom-color:rgba(255,255,255,0.07);color:#FF8C42}
-      #detailPage .detail-img-wrap,#detailPage .thumb-strip{background:#122040}
-      #detailPage .detail-title{color:#fff!important}
-      #detailPage .detail-table{background:#162444;border-color:rgba(255,255,255,0.07)}
-      #detailPage .drow{border-bottom-color:rgba(255,255,255,0.06)}
-      #detailPage .drow .dk{color:rgba(255,255,255,0.45)}
-      #detailPage .drow .dv{color:#fff}
-      #detailPage .detail-footer{background:linear-gradient(to top,#0D1B35 80%,rgba(13,27,53,0))}
-      #detailPage .dp-lbl{color:rgba(255,255,255,0.45)}
-      #detailPage .detail-crumb{color:rgba(255,255,255,0.35)}
-      #detailPage .detail-price-box{background:rgba(255,107,26,0.1);border-color:rgba(255,107,26,0.25)}
-      #detailPage #dNote{color:rgba(255,255,255,0.75)!important}`;
-  } else {
-    if (st) st.remove();
-  }
+  /* dark theme ถูก built-in แล้ว ไม่ต้องทำอะไรเพิ่ม */
 }
 
 /* ── Buy handler ── */
