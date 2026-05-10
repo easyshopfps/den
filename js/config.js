@@ -4,7 +4,7 @@
 
 const SB_URL = 'https://wsklbzywuzvsdhmmvhiy.supabase.co';
 const SB_KEY = 'sb_publishable_YpJBgsuYZoKgEIsz3lJp_w_1PpK7nrz';
-const WA     = '85620960341142';
+const WA     = '8562096034114';
 
 const RANK_ICON = {
   'Mythic Glory': '👑',
