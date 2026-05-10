@@ -2,12 +2,15 @@
    seo.js — Meta tag management
    ════════════════════════════════ */
 
+const SITE_NAME = 'ເວັບພໍ່ຄ້າໜ້າຫວານ ຂາຍໄອດີເກມ';
+const SITE_DESC = 'ເວັບພໍ່ຄ້າໜ້າຫວານ ຂາຍໄອດີເກມ Mobile Legends, Free Fire ລາຄາຖືກ ພ້ອມເສີບທັນທີ';
+
 function setSEOMeta({ title, description, image, url }) {
-  document.title = title;
-  _setMeta('description', description);
-  _setMeta('og:title',       title,       true);
-  _setMeta('og:description', description, true);
-  _setMeta('og:url',         url,         true);
+  document.title = title || SITE_NAME;
+  _setMeta('description', description || SITE_DESC);
+  _setMeta('og:title',       title || SITE_NAME,       true);
+  _setMeta('og:description', description || SITE_DESC, true);
+  _setMeta('og:url',         url,                      true);
   if (image) _setMeta('og:image', image, true);
 }
 
