@@ -177,6 +177,10 @@ function doPriceSearch() {
         : `🔎 ໄອດີງົບທີ່ໃກ້ຄຽງ ${Number(target).toLocaleString()} ກຣີບ (${near.length} ລາຍການ)`}
     </div>` +
     near.map(p => cardHTML(p, products.indexOf(p))).join('');
+
+  /* fix: init observer ให้การ์ดใหม่ slide-in ได้ */
+  _initObserver();
+  g.querySelectorAll('.card').forEach(card => _observer.observe(card));
 }
 
 function clearPriceSearch() {
