@@ -89,26 +89,10 @@ let bannerTimer = null;
 
 async function loadBanners() {
   try {
-    // ດຶງ ads ທີ່ is_active = true ກ່ອນ (ລະບົບໂຄສະນາໃໝ່)
-    let slides = [];
-    try {
-      const adsData = await sbFetch('/rest/v1/ads?select=*&is_active=eq.true&order=sort_order.asc');
-      if(adsData && adsData.length) {
-        slides = adsData.map(a => ({
-          img: a.img_url,
-          url: a.type === 'internal' && a.product_id ? `?p=${a.product_id}` : (a.dest_url || null)
-        })).filter(s => s.img);
-      }
-    } catch(e) { /* fallback to old banners */ }
-
-    // ຖ້າ ads ຫວ່າງ → ໃຊ້ banners table ເດີມ
-    if(!slides.length) {
-      const data = await sbFetch('/rest/v1/banners?select=*&order=sort_order.asc');
-      slides = (data||[]).map(r => ({ img: r.img_url, url: r.link_url || null })).filter(s => s.img);
-    }
-
-    if (!slides.length) { _hideBanner(); return; }
-    _renderBanner(slides);
+    const data = await sbFetch('/rest/v1/banners?select=*&order=sort_order.asc');
+    const imgs = data.map(r => r.img_url).filter(Boolean);
+    if (!imgs.length) { _hideBanner(); return; }
+    _renderBanner(imgs);
   } catch (e) {
     _hideBanner();
   }
@@ -119,18 +103,16 @@ function _hideBanner() {
   if (w) w.style.display = 'none';
 }
 
-function _renderBanner(slides) {
+function _renderBanner(imgs) {
   const track = document.getElementById('bannerTrack');
   if (!track) return;
-  track.innerHTML = slides.map(s =>
-    s.url
-      ? `<div class="banner-slide" onclick="openLink('${s.url}')" style="cursor:pointer"><img src="${s.img}" alt="banner" loading="lazy"/></div>`
-      : `<div class="banner-slide"><img src="${s.img}" alt="banner" loading="lazy"/></div>`
+  track.innerHTML = imgs.map(u =>
+    `<div class="banner-slide"><img src="${u}" alt="banner" loading="lazy"/></div>`
   ).join('');
-  bannerTotal = slides.length;
-  if (slides.length > 1) {
+  bannerTotal = imgs.length;
+  if (imgs.length > 1) {
     if (bannerTimer) clearInterval(bannerTimer);
-    bannerTimer = setInterval(() => goBanner((bannerIdx + 1) % slides.length), 3500);
+    bannerTimer = setInterval(() => goBanner((bannerIdx + 1) % imgs.length), 3500);
   }
 }
 
@@ -167,30 +149,7 @@ async function loadAnnouncement() {
   }
 }
 
-/* ── Categories (dynamic from DB) ── */
-async function loadCategories() {
-  try {
-    const data = await sbFetch('/rest/v1/categories?select=*&order=sort_order.asc');
-    if (!data || !data.length) return null;
-    return data; // [{id, name, img_url, sort_order}]
-  } catch(e) {
-    console.warn('[data] loadCategories:', e);
-    return null;
-  }
-}
-
-/* ── Contact info (dynamic from DB) ── */
-async function loadContactInfo() {
-  try {
-    const data = await sbFetch('/rest/v1/contacts?select=*&limit=1');
-    if (!data || !data.length) return null;
-    return data[0];
-  } catch(e) {
-    console.warn('[data] loadContactInfo:', e);
-    return null;
-  }
-}
- */
+/* ── Web config (theme / colors / font) ── */
 async function loadConfig() {
   try {
     const cfg = await sbFetch('/rest/v1/web_config?select=*&limit=1');
