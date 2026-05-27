@@ -5,18 +5,18 @@
 
 async function init() {
   try {
-    /* 1. Config (theme/font) must run first so UI looks right immediately */
+    /* 1. Config (theme/font) first */
     await loadConfig();
 
-    /* 2. Load WA number, banners, announcement, categories in parallel */
-    const [,,, cats] = await Promise.all([
+    /* 2. WA number + banner + announcement + categories in parallel */
+    const [,,,cats] = await Promise.all([
       loadWaNumber(),
       loadBanners(),
       loadAnnouncement(),
       loadCategories()
     ]);
 
-    /* 3. Render category row if DB returned data */
+    /* 3. Render category row if DB has data */
     if (cats && cats.length) {
       const row = document.getElementById('catRow');
       if (row) {
@@ -31,15 +31,18 @@ async function init() {
       }
     }
 
-    /* 4. Products — show ALL immediately */
+    /* 4. Products */
     products = await loadProducts();
 
-    /* 5. Render full grid right away (no filtering) */
+    /* 5. Render grid */
     renderGrid(products);
     updateStats();
 
-    /* 6. Handle deep-link URL (e.g. ?p=123 or ?cat=Mobile Legends) */
+    /* 6. Route */
     handleInitialRoute();
+
+    /* 7. Ads popup — after everything loads (non-blocking) */
+    loadAdsPopup();
 
   } catch (err) {
     console.error('[main] init failed:', err);
@@ -54,3 +57,4 @@ async function init() {
 
 /* Boot when DOM is ready */
 document.addEventListener('DOMContentLoaded', init);
+

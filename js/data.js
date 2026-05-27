@@ -82,42 +82,20 @@ async function _syncProductsInBackground() {
   } catch(e) { /* silent fail — cache ยังใช้ได้ */ }
 }
 
-/* ── Banners + Ads Popup ── */
+/* ── Banners ── */
 let bannerIdx   = 0;
 let bannerTotal = 0;
 let bannerTimer = null;
 
 async function loadBanners() {
   try {
-    let slides = [];
-    let popupAd = null;
-
-    // Try ads table first
-    try {
-      const adsData = await sbFetch('/rest/v1/ads?select=*&is_active=eq.true&order=sort_order.asc');
-      if (adsData && adsData.length) {
-        slides = adsData.map(a => ({
-          img: a.img_url,
-          url: a.type === 'internal' && a.product_id ? `?p=${a.product_id}` : (a.dest_url||null),
-          type: a.type, product_id: a.product_id, dest_url: a.dest_url, title: a.title
-        })).filter(s => s.img);
-        if (slides.length) popupAd = slides[0];
-      }
-    } catch(e) {}
-
-    // Fallback to banners table
-    if (!slides.length) {
-      const data = await sbFetch('/rest/v1/banners?select=*&order=sort_order.asc');
-      slides = (data||[]).map(r => ({ img: r.img_url, url: r.link_url||null })).filter(s => s.img);
-    }
-
-    if (!slides.length) { _hideBanner(); } else { _renderBanner(slides); }
-
-    // Show popup after short delay
-    if (popupAd && typeof openAdsPopup === 'function') {
-      setTimeout(() => openAdsPopup(popupAd), 1200);
-    }
-  } catch(e) { _hideBanner(); }
+    const data = await sbFetch('/rest/v1/banners?select=*&order=sort_order.asc');
+    const imgs = data.map(r => r.img_url).filter(Boolean);
+    if (!imgs.length) { _hideBanner(); return; }
+    _renderBanner(imgs);
+  } catch (e) {
+    _hideBanner();
+  }
 }
 
 function _hideBanner() {
@@ -125,18 +103,16 @@ function _hideBanner() {
   if (w) w.style.display = 'none';
 }
 
-function _renderBanner(slides) {
+function _renderBanner(imgs) {
   const track = document.getElementById('bannerTrack');
   if (!track) return;
-  track.innerHTML = slides.map(s =>
-    s.url
-      ? `<div class="banner-slide" onclick="openLink('${s.url}')" style="cursor:pointer"><img src="${s.img}" alt="banner" loading="lazy"/></div>`
-      : `<div class="banner-slide"><img src="${s.img}" alt="banner" loading="lazy"/></div>`
+  track.innerHTML = imgs.map(u =>
+    `<div class="banner-slide"><img src="${u}" alt="banner" loading="lazy"/></div>`
   ).join('');
-  bannerTotal = slides.length;
-  if (slides.length > 1) {
+  bannerTotal = imgs.length;
+  if (imgs.length > 1) {
     if (bannerTimer) clearInterval(bannerTimer);
-    bannerTimer = setInterval(() => goBanner((bannerIdx + 1) % slides.length), 3500);
+    bannerTimer = setInterval(() => goBanner((bannerIdx + 1) % imgs.length), 3500);
   }
 }
 
@@ -153,41 +129,24 @@ async function loadAnnouncement() {
     const data = await sbFetch(
       '/rest/v1/announcements?select=*&is_active=eq.true&order=created_at.desc&limit=1'
     );
-    if (!data || !data.length) { return; }
-    const bar = document.getElementById('announceBar');
+    if (!data || !data.length) return;
     const el  = document.getElementById('annText');
-    if (!bar || !el) { return; }
-    const msg = data[0].message || data[0].text || data[0].content || '';
-    if (!msg) { return; }
-    el.textContent    = msg;
+    const bar = document.getElementById('announceBar');
+    if (!el || !bar) return;
+    el.textContent  = data[0].message;
     bar.style.display = 'flex';
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const container = el.parentElement;
-        if (!container) return;
-        const textW    = el.scrollWidth;
-        const contW    = container.offsetWidth || 320;
-        const duration = Math.max(8, (textW + contW) / 75);
-        el.style.setProperty('--ann-start', contW + 'px');
-        el.style.setProperty('--ann-end',   '-' + textW + 'px');
-        el.style.animation = `marquee ${duration}s linear infinite`;
-      });
+      const container = el.parentElement;
+      const textW     = el.scrollWidth;
+      const contW     = container.offsetWidth;
+      const duration  = Math.max(10, (textW + contW) / 75);
+      el.style.setProperty('--ann-start', contW + 'px');
+      el.style.setProperty('--ann-end',   '-' + textW + 'px');
+      el.style.animation = `marquee ${duration}s linear infinite`;
     });
   } catch (e) {
     console.warn('[data] loadAnnouncement:', e);
   }
-}
-
-/* ── Load WA buy number from DB ── */
-async function loadWaNumber() {
-  try {
-    const data = await sbFetch('/rest/v1/contacts?select=buy_wa_number,wa_sell_number&limit=1');
-    if (data && data.length) {
-      // buy_wa_number = ເບີທີ່ລູກຄ້າກົດ "ສັ່ງຊື້" ແລ້ວໄປ
-      const num = data[0].buy_wa_number || data[0].wa_sell_number;
-      if (num) WA = num;
-    }
-  } catch(e) { /* silent — keep default */ }
 }
 
 /* ── Web config (theme / colors / font) ── */
@@ -246,7 +205,23 @@ async function loadConfig() {
   }
 }
 
-/* ── Categories (dynamic from DB) ── */
+/* ── Ads Popup (ແຍກຈາກ banner ສົມບູນ) ── */
+async function loadAdsPopup() {
+  try {
+    const data = await sbFetch('/rest/v1/ads?select=*&is_active=eq.true&order=sort_order.asc&limit=1');
+    if (!data || !data.length) return;
+    const ad = data[0];
+    if (!ad.img_url) return;
+    const url = ad.type === 'internal' && ad.product_id
+      ? '?p=' + ad.product_id
+      : (ad.dest_url || null);
+    setTimeout(() => {
+      if (typeof openAdsPopup === 'function') openAdsPopup({ img: ad.img_url, url, title: ad.title });
+    }, 1000);
+  } catch(e) {}
+}
+
+/* ── Categories ── */
 async function loadCategories() {
   try {
     const data = await sbFetch('/rest/v1/categories?select=*&order=sort_order.asc');
@@ -254,10 +229,18 @@ async function loadCategories() {
   } catch(e) { return null; }
 }
 
-/* ── Contact info (dynamic from DB) ── */
+/* ── Contact info ── */
 async function loadContactInfo() {
   try {
     const data = await sbFetch('/rest/v1/contacts?select=*&limit=1');
     return (data && data.length) ? data[0] : null;
   } catch(e) { return null; }
+}
+
+/* ── WA buy number ── */
+async function loadWaNumber() {
+  try {
+    const data = await sbFetch('/rest/v1/contacts?select=buy_wa_number&limit=1');
+    if (data && data.length && data[0].buy_wa_number) WA = data[0].buy_wa_number;
+  } catch(e) {}
 }
