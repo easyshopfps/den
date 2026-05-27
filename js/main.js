@@ -8,8 +8,9 @@ async function init() {
     /* 1. Config (theme/font) must run first so UI looks right immediately */
     await loadConfig();
 
-    /* 2. Banner + announcement + categories load in parallel */
-    const [,,cats] = await Promise.all([
+    /* 2. Load WA number, banners, announcement, categories in parallel */
+    const [,,, cats] = await Promise.all([
+      loadWaNumber(),
       loadBanners(),
       loadAnnouncement(),
       loadCategories()
@@ -30,10 +31,10 @@ async function init() {
       }
     }
 
-    /* 4. Products */
+    /* 4. Products — show ALL immediately */
     products = await loadProducts();
 
-    /* 5. Render home grid */
+    /* 5. Render full grid right away (no filtering) */
     renderGrid(products);
     updateStats();
 
@@ -43,7 +44,6 @@ async function init() {
   } catch (err) {
     console.error('[main] init failed:', err);
   } finally {
-    /* Always hide loader */
     const loader = document.getElementById('pageLoader');
     if (loader) {
       loader.classList.add('hide');

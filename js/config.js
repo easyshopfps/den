@@ -4,7 +4,9 @@
 
 const SB_URL = 'https://wsklbzywuzvsdhmmvhiy.supabase.co';
 const SB_KEY = 'sb_publishable_YpJBgsuYZoKgEIsz3lJp_w_1PpK7nrz';
-const WA     = '8562096034114';
+
+/* WA ເບີ — ໂຫລດຈາກ DB ກ່ອນ ຖ້າໂຫລດບໍ່ໄດ້ໃຊ້ fallback */
+let WA = '8562096034114'; // fallback default
 
 const RANK_ICON = {
   'Mythic Glory': '👑',
