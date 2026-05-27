@@ -8,17 +8,36 @@ async function init() {
     /* 1. Config (theme/font) must run first so UI looks right immediately */
     await loadConfig();
 
-    /* 2. Banner + announcement can load in parallel */
-    await Promise.all([loadBanners(), loadAnnouncement()]);
+    /* 2. Banner + announcement + categories load in parallel */
+    const [,,cats] = await Promise.all([
+      loadBanners(),
+      loadAnnouncement(),
+      loadCategories()
+    ]);
 
-    /* 3. Products */
+    /* 3. Render category row if DB returned data */
+    if (cats && cats.length) {
+      const row = document.getElementById('catRow');
+      if (row) {
+        row.innerHTML = cats.map(c => `
+          <div class="cat-item" onclick="openCatPage('${c.name.replace(/'/g,"\\'")}')">
+            <div class="cat-img">
+              ${c.img_url
+                ? `<img src="${c.img_url}" alt="${c.name}" loading="lazy" width="600" height="200" onerror="this.style.display='none'"/>`
+                : `<span style="display:flex;align-items:center;justify-content:center;height:100%;font-size:.85rem;font-weight:700;color:rgba(255,255,255,0.5)">${c.name}</span>`}
+            </div>
+          </div>`).join('');
+      }
+    }
+
+    /* 4. Products */
     products = await loadProducts();
 
-    /* 4. Render home grid */
+    /* 5. Render home grid */
     renderGrid(products);
     updateStats();
 
-    /* 5. Handle deep-link URL (e.g. ?p=123 or ?cat=Mobile Legends) */
+    /* 6. Handle deep-link URL (e.g. ?p=123 or ?cat=Mobile Legends) */
     handleInitialRoute();
 
   } catch (err) {

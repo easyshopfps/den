@@ -204,3 +204,19 @@ async function loadConfig() {
     /* ignore — use defaults */
   }
 }
+
+/* ── Categories (dynamic from DB) ── */
+async function loadCategories() {
+  try {
+    const data = await sbFetch('/rest/v1/categories?select=*&order=sort_order.asc');
+    return (data && data.length) ? data : null;
+  } catch(e) { return null; }
+}
+
+/* ── Contact info (dynamic from DB) ── */
+async function loadContactInfo() {
+  try {
+    const data = await sbFetch('/rest/v1/contacts?select=*&limit=1');
+    return (data && data.length) ? data[0] : null;
+  } catch(e) { return null; }
+}
