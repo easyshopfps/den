@@ -204,3 +204,43 @@ async function loadConfig() {
     /* ignore — use defaults */
   }
 }
+
+/* ── Ads Popup (ແຍກຈາກ banner ສົມບູນ) ── */
+async function loadAdsPopup() {
+  try {
+    const data = await sbFetch('/rest/v1/ads?select=*&is_active=eq.true&order=sort_order.asc&limit=1');
+    if (!data || !data.length) return;
+    const ad = data[0];
+    if (!ad.img_url) return;
+    const url = ad.type === 'internal' && ad.product_id
+      ? '?p=' + ad.product_id
+      : (ad.dest_url || null);
+    setTimeout(() => {
+      if (typeof openAdsPopup === 'function') openAdsPopup({ img: ad.img_url, url, title: ad.title });
+    }, 1000);
+  } catch(e) {}
+}
+
+/* ── Categories ── */
+async function loadCategories() {
+  try {
+    const data = await sbFetch('/rest/v1/categories?select=*&order=sort_order.asc');
+    return (data && data.length) ? data : null;
+  } catch(e) { return null; }
+}
+
+/* ── Contact info ── */
+async function loadContactInfo() {
+  try {
+    const data = await sbFetch('/rest/v1/contacts?select=*&limit=1');
+    return (data && data.length) ? data[0] : null;
+  } catch(e) { return null; }
+}
+
+/* ── WA buy number ── */
+async function loadWaNumber() {
+  try {
+    const data = await sbFetch('/rest/v1/contacts?select=buy_wa_number&limit=1');
+    if (data && data.length && data[0].buy_wa_number) WA = data[0].buy_wa_number;
+  } catch(e) {}
+}
