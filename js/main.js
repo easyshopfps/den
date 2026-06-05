@@ -5,62 +5,26 @@
 
 async function init() {
   try {
-    /* 1. Config (theme/font) first */
+    /* 1. Config (theme/font) must run first so UI looks right immediately */
     await loadConfig();
 
-    /* 2. WA number + banner + announcement + categories in parallel */
-    const [,,,cats] = await Promise.all([
-      loadWaNumber(),
-      loadBanners(),
-      loadAnnouncement(),
-      loadCategories()
-    ]);
+    /* 2. Banner + announcement can load in parallel */
+    await Promise.all([loadBanners(), loadAnnouncement()]);
 
-    /* 3. Render category row if DB has data */
-    if (cats && cats.length) {
-      const row = document.getElementById('catRow');
-      if (row) {
-        row.innerHTML = cats.map(c => `
-          <div class="cat-item" onclick="openCatPage('${c.name.replace(/'/g,"\\'")}')">
-            <div style="width:100%;aspect-ratio:16/5;overflow:hidden;border-radius:12px 12px 0 0">
-              ${c.img_url
-                ? `<img src="${c.img_url}" alt="${c.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'"/>`
-                : `<div style="width:100%;height:100%;background:rgba(255,107,26,0.1);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:rgba(255,255,255,0.5)">${c.name}</div>`}
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#111c33;border-radius:0 0 12px 12px">
-              <span style="font-size:.82rem;font-weight:800;color:#fff">${c.name}</span>
-              <span class="cat-count-${c.name.replace(/\s/g,'_')}" style="font-size:.7rem;font-weight:600;color:rgba(255,255,255,0.4)">... ໄອດີ</span>
-            </div>
-          </div>`).join('');
-      }
-    }
-
-    /* 4. Products */
+    /* 3. Products */
     products = await loadProducts();
 
-    /* 5. Render grid */
+    /* 4. Render home grid */
     renderGrid(products);
     updateStats();
 
-    /* 5b. Update category product counts now that products are loaded */
-    if (cats && cats.length) {
-      cats.forEach(c => {
-        const key = c.name.replace(/\s/g,'_');
-        const els = document.querySelectorAll(`.cat-count-${key}`);
-        const count = products.filter(p => p.game === c.name).length;
-        els.forEach(el => { el.textContent = 'ມີ' + count + ' ໄອດີ'; });
-      });
-    }
-
-    /* 6. Route */
+    /* 5. Handle deep-link URL (e.g. ?p=123 or ?cat=Mobile Legends) */
     handleInitialRoute();
-
-    /* 7. Ads popup — after everything loads (non-blocking) */
-    loadAdsPopup();
 
   } catch (err) {
     console.error('[main] init failed:', err);
   } finally {
+    /* Always hide loader */
     const loader = document.getElementById('pageLoader');
     if (loader) {
       loader.classList.add('hide');
@@ -71,4 +35,3 @@ async function init() {
 
 /* Boot when DOM is ready */
 document.addEventListener('DOMContentLoaded', init);
-

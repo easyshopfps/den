@@ -4,9 +4,7 @@
 
 const SB_URL = 'https://wsklbzywuzvsdhmmvhiy.supabase.co';
 const SB_KEY = 'sb_publishable_YpJBgsuYZoKgEIsz3lJp_w_1PpK7nrz';
-
-/* WA ເບີ — ໂຫລດຈາກ DB ກ່ອນ ຖ້າໂຫລດບໍ່ໄດ້ໃຊ້ fallback */
-let WA = '8562096034114'; // fallback default
+const WA     = '8562096034114';
 
 const RANK_ICON = {
   'Mythic Glory': '👑',
@@ -29,26 +27,19 @@ const GAMESVG = `<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0
 let products    = [];
 let displayList = [];
 
-/* ── Supabase fetch (with 8s timeout) ── */
+/* ── Supabase fetch ── */
 async function sbFetch(path, opts = {}) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000);
-  try {
-    const res = await fetch(SB_URL + path, {
-      signal: controller.signal,
-      headers: {
-        'apikey':        SB_KEY,
-        'Authorization': 'Bearer ' + SB_KEY,
-        'Content-Type':  'application/json',
-        ...opts.headers
-      },
-      ...opts
-    });
-    if (!res.ok) throw new Error(await res.text());
-    return res.json();
-  } finally {
-    clearTimeout(timer);
-  }
+  const res = await fetch(SB_URL + path, {
+    headers: {
+      'apikey':        SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type':  'application/json',
+      ...opts.headers
+    },
+    ...opts
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
 }
 
 /* ── Helpers ── */
