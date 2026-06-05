@@ -22,14 +22,14 @@ async function init() {
       if (row) {
         row.innerHTML = cats.map(c => `
           <div class="cat-item" onclick="openCatPage('${c.name.replace(/'/g,"\\'")}')">
-            <div class="cat-img">
+            <div style="width:100%;aspect-ratio:16/5;overflow:hidden;border-radius:12px 12px 0 0">
               ${c.img_url
-                ? `<img src="${c.img_url}" alt="${c.name}" loading="lazy" onerror="this.style.display='none'" style="width:100%;aspect-ratio:3/1;object-fit:cover;display:block"/>`
-                : `<div style="width:100%;aspect-ratio:3/1;background:rgba(255,107,26,0.1);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:rgba(255,255,255,0.5)">${c.name}</div>`}
+                ? `<img src="${c.img_url}" alt="${c.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'"/>`
+                : `<div style="width:100%;height:100%;background:rgba(255,107,26,0.1);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:rgba(255,255,255,0.5)">${c.name}</div>`}
             </div>
-            <div id="catinfo_${c.name.replace(/\s/g,'_')}" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#0D1B35">
-              <span style="font-size:.92rem;font-weight:800;color:#fff">${c.name}</span>
-              <span class="cat-count-${c.name.replace(/\s/g,'_')}" style="font-size:.75rem;font-weight:700;color:rgba(255,255,255,0.45)">... ໄອດີ</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#111c33;border-radius:0 0 12px 12px">
+              <span style="font-size:.82rem;font-weight:800;color:#fff">${c.name}</span>
+              <span class="cat-count-${c.name.replace(/\s/g,'_')}" style="font-size:.7rem;font-weight:600;color:rgba(255,255,255,0.4)">... ໄອດີ</span>
             </div>
           </div>`).join('');
       }
