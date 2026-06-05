@@ -29,19 +29,26 @@ const GAMESVG = `<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0
 let products    = [];
 let displayList = [];
 
-/* ── Supabase fetch ── */
+/* ── Supabase fetch (with 8s timeout) ── */
 async function sbFetch(path, opts = {}) {
-  const res = await fetch(SB_URL + path, {
-    headers: {
-      'apikey':        SB_KEY,
-      'Authorization': 'Bearer ' + SB_KEY,
-      'Content-Type':  'application/json',
-      ...opts.headers
-    },
-    ...opts
-  });
-  if (!res.ok) throw new Error(await res.text());
-  return res.json();
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  try {
+    const res = await fetch(SB_URL + path, {
+      signal: controller.signal,
+      headers: {
+        'apikey':        SB_KEY,
+        'Authorization': 'Bearer ' + SB_KEY,
+        'Content-Type':  'application/json',
+        ...opts.headers
+      },
+      ...opts
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 /* ── Helpers ── */
