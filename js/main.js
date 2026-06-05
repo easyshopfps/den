@@ -24,8 +24,12 @@ async function init() {
           <div class="cat-item" onclick="openCatPage('${c.name.replace(/'/g,"\\'")}')">
             <div class="cat-img">
               ${c.img_url
-                ? `<img src="${c.img_url}" alt="${c.name}" loading="lazy" width="600" height="200" onerror="this.style.display='none'"/>`
-                : `<span style="display:flex;align-items:center;justify-content:center;height:100%;font-size:.85rem;font-weight:700;color:rgba(255,255,255,0.5)">${c.name}</span>`}
+                ? `<img src="${c.img_url}" alt="${c.name}" loading="lazy" onerror="this.style.display='none'" style="width:100%;aspect-ratio:3/1;object-fit:cover;display:block"/>`
+                : `<div style="width:100%;aspect-ratio:3/1;background:rgba(255,107,26,0.1);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:rgba(255,255,255,0.5)">${c.name}</div>`}
+            </div>
+            <div id="catinfo_${c.name.replace(/\s/g,'_')}" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#0D1B35">
+              <span style="font-size:.92rem;font-weight:800;color:#fff">${c.name}</span>
+              <span class="cat-count-${c.name.replace(/\s/g,'_')}" style="font-size:.75rem;font-weight:700;color:rgba(255,255,255,0.45)">... ໄອດີ</span>
             </div>
           </div>`).join('');
       }
@@ -37,6 +41,16 @@ async function init() {
     /* 5. Render grid */
     renderGrid(products);
     updateStats();
+
+    /* 5b. Update category product counts now that products are loaded */
+    if (cats && cats.length) {
+      cats.forEach(c => {
+        const key = c.name.replace(/\s/g,'_');
+        const els = document.querySelectorAll(`.cat-count-${key}`);
+        const count = products.filter(p => p.game === c.name).length;
+        els.forEach(el => { el.textContent = 'ມີ' + count + ' ໄອດີ'; });
+      });
+    }
 
     /* 6. Route */
     handleInitialRoute();
